@@ -42,16 +42,13 @@
     <center>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a href="index.html"><img class="logo_nav img-fluid" src="./image/siemsee.gif" width="30px"
-                        height="30px" alt="Logo"></a>
+                <a href="#"><img class="logo_nav img-fluid" src="./image/siemsee.gif" width="30px" height="30px" alt="Logo"></a>
                 <a class="navbar-brand" style="font-size: 15px; margin-left: 10px;">โรคปอดอุดกั้นเรื้อรัง</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto"> <!-- Add me-auto to push items to the right -->
                         <li class="nav-item">
                             <!-- <a class="nav-link active" aria-current="page" href="index.html">หน้าหลัก</a> -->
                         </li>
@@ -61,32 +58,26 @@
                         <li class="nav-item">
                             <!-- <a class="nav-link" href="recommend.html">คําแนะนําการปฏิบัติตัว</a> -->
                             <a class="nav-link" href="#">คําแนะนําการปฏิบัติตัว</a>
-
                         </li>
-                        
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 เกี่ยวกับเรา
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="member.html">ประวัติจัดทำ</a></li>
-                               
                                 <li><a class="dropdown-item" href="#">ผู้พัฒนา Application</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <b>
-                                <?= username ?> <!-- ตรวจสอบว่าชื่อผู้ใช้ถูกส่งมา -->
-                            </b> <!-- แสดงชื่อผู้ใช้ -->
-                        </li>
-                        <li>
-                            <a href="logout.html" class="btn btn-outline-danger">ออกจากระบบ</a> <!-- ปุ่มออกจากระบบ -->
-                        </li>
                     </ul>
+                    <!-- Add the following div to push the logout button to the right -->
+                    <div class="d-flex align-items-center ms-auto">
+                        <b><?= username ?></b> <!-- ตรวจสอบว่าชื่อผู้ใช้ถูกส่งมา -->
+                        <a href="logout.html" class="btn btn-outline-danger ms-3">ออกจากระบบ</a> <!-- ปุ่มออกจากระบบ -->
+                    </div>
                 </div>
             </div>
         </nav>
+        
         <br>
     </center>
     <div class="container">
@@ -96,7 +87,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <hr>
+                        <br>
                         <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ประเมิน mMRC / CAT</b></h5>
                         <hr>
                         <div class="container">
@@ -107,24 +98,25 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <hr>
+                        <br>
+                        <!-- <hr> -->
                         <h5 class="card-title"><b style="color: rgb(0, 177, 177);">เก็บรวบรวมข้อมูล</b></h5>
                         <hr>
+                        <!-- <br> -->
                         <div class="container">
                             <img src="./image/logo_data.png" class="img-fluid" style="border-radius: 10px;"
-                                alt="Logo Data Image" width="45%" height="50%">
+                                alt="Logo Data Image" width="47%" height="50%">
                         </div>
-                        <hr>
+                        <hr class="">
                         <a href="./smoke/smokeIndex.html" class="btn btn-outline-info">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6">
+            <!-- <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
                         <hr>
@@ -138,9 +130,9 @@
                         <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="col-sm-6">
+            <!-- <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
                         <hr>
@@ -154,7 +146,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+
         <br><br>
         <div class="position-relative m-4">
             <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0"
