@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>ลงทะเบียน</title>
+  <link rel="icon" type="image/x-icon" href="./image/ya.png">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background-image: linear-gradient(to right, rgba(14, 154, 254, 0.871), #06659b);
+    }
+
+    .container {
+      flex: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="position-relative m-4">
+      <div class="position-relative m-4">
+        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0"
+          aria-valuemax="100" style="height: 1px;">
+          <div class="progress-bar"></div>
+        </div>
+        <button type="button"
+          class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-warning rounded-pill"
+          style="width: 2rem; height:2rem;"><a href="index.html"
+            style="color: white; text-decoration: none;">1</a></button>
+        <button type="button"
+          class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-warning rounded-pill"
+          style="width: 2rem; height:2rem;"><a href="#"
+            style="color: white; text-decoration: none;">2</a></button>
+        <button type="button"
+          class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-danger rounded-pill"
+          style="width: 2rem; height:2rem;">3</button>
+      </div>
+      <div class="row">
+        <div class="sign-up">
+          <div class="col-md-6 offset-md-3">
+            <form
+              action="https://script.google.com/macros/s/AKfycbxm8t-gawuwewsgHWRvC-UKSURjVu5ehAQACdbqefMHLe4UoUPF4_iYaTZla3NsIufmgQ/exec"
+              class="mt-5 border p-5 bg-light shadow" style="border-radius: 20px;" id="myForm" method="POST"
+              onsubmit="submitForm(event)">
+              <div class="row">
+                <h3 class="mb-5 text-secondary"><b>กรอกข้อมูลส่วนตัว&nbsp; &nbsp;<a href="index.html"
+                      style="color: red; position: absolute; text-decoration: none;">x</a></b>
+                </h3>
+              </div>
+              <div class="row">
+                <!-- ฟิลด์ฟอร์มหลัก -->
+                <div class="mb-3 col-md-6">
+                  <label for="">ชื่อ</label>
+                  <input type="text" name="name" class="form-control" placeholder="ชื่อ" required>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="">นามสกุล</label>
+                  <input type="text" id="surname" name="surname" class="form-control" placeholder="นามสกุล" required>
+                </div>
+                <div class="mb-3 col-md-12">
+                  <label for="">เลขบัตรประชาชน</label>
+                  <input type="number" id="Id_P" name="Id_P" class="form-control" placeholder="ระบุเลขบัตรประชาชน 13 หลัก"
+                    required>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="">เพศ</label>
+                  <select name="gender" class="form-control">
+                    <option value="ไม่ระบุเพศ">ไม่ระบุเพศ</option>
+                    <option value="ชาย">ชาย</option>
+                    <option value="หญิง">หญิง</option>
+                  </select>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="">อายุ</label>
+                  <h5><input type="number" name="age" id="age" class="form-control" placeholder="อายุ ปี" required></h5>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="">อาชีพ</label>
+                  <h5><input type="text" name="career" class="form-control" placeholder="ระบุอาชีพปัจจุบัน" required>
+                  </h5>
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="">สถานที่ทำงาน</label>
+                  <h5><input type="text" name="location_working" class="form-control" placeholder="ระบุสถานที่ทำงาน"
+                      required></h5>
+                </div>
+                <div class="mb-5 col-md-12">
+                  <label for="">โรคประจำตัว</label>
+                  <select name="Chronic_illness" id="Chronic_illness" class="form-control">
+                    <option value="เบาหวาน">เบาหวาน</option>
+                    <option value="ความดัน">ความดัน</option>
+                    <option value="ไขมัน">ไขมัน</option>
+                    <option value="อื่นๆ">อื่นๆ</option>
+                  </select>
+                </div>
+                <center>
+                  <!-- ปุ่มที่เปิด Modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    data-bs-whatever="@mdo">
+                    กดต่อไปเพื่อกรอกเป้าหมาย
+                  </button>
+                </center>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">
+                          เป้าหมายเพื่อลดการกำเริบของโรคปอดอุดกั้นเรื้อรังของคุณคืออะไร
+                        </h1>
+                        <!-- ปุ่มปิด Modal -->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="mb-3">
+                          <label for="message-text" class="col-form-label">ระบุ :</label>
+                          <textarea class="form-control" name="Cause_copd" id="Cause_copd"></textarea>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <!-- ปุ่มปิด Modal -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                        <!-- ปุ่มส่งข้อมูล -->
+                        <button type="button" class="btn btn-primary col-2 mx-2" id="submitButton"
+                          onclick="submitForm()">
+                          ส่ง
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      function submitForm() {
+        // Get all the form inputs
+        var currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+        var name = document.getElementsByName('name')[0].value.trim();
+        var surname = document.getElementById('surname').value.trim();
+        var Id_P = document.getElementById('Id_P').value.trim();
+        var career = document.getElementsByName('career')[0].value.trim();
+        var location_working = document.getElementsByName('location_working')[0].value.trim();
+        var gender = document.querySelector('input[name="gender"]:checked')?.value;
+        var Chronic_illness = document.getElementById('Chronic_illness').value.trim();
+        var age = document.getElementById('age').value.trim();
+        var Cause_copd = document.getElementById('Cause_copd').value.trim();
+
+        // Check if all fields are filled
+        if (name === "" || surname === "" || gender === "" || age === "" || career === "" || location_working === "" || Id_P === "" || Chronic_illness === "" || Cause_copd === "") {
+          Swal.fire({
+            title: 'เกิดข้อผิดพลาด!',
+            text: 'กรุณากรอกข้อมูลให้ครบทุกฟิลด์',
+            icon: 'error',
+            confirmButtonText: 'ตกลง'
+          });
+          return; // Stop the function from continuing
+        }
+
+        // สร้าง id อัตโนมัติ (เช่น ใช้ timestamp)
+        var autoId = 'ID_' + Date.now();
+
+        // เข้ารหัส autoId ด้วย Base64
+        var encodedId = btoa(autoId); // Base64 encoding
+
+
+        // ปิดการใช้งานปุ่มหลังจากคลิก
+        document.getElementById('submitButton').disabled = true;
+
+        var form = document.getElementById('myForm');
+        var formData = new FormData(form);
+
+        // เพิ่ม id ที่เข้ารหัสและวันที่ลงใน FormData
+        formData.append('autoId', encodedId);
+        formData.append('currentDate', currentDate);
+
+        fetch('https://script.google.com/macros/s/AKfycbxK0uf38KqtI9PaMM3s2ERVQG1yrWv243nwgY1ItZ3x9XsrXFgY4Huy81mIZMhdIT4y8w/exec', {
+          method: 'POST',
+          body: new URLSearchParams(formData)
+        })
+          .then(response => response.json()) // ตรวจสอบการตอบกลับ JSON
+          .then(data => {
+            Swal.fire({
+              title: 'สำเร็จ!',
+              text: 'ฟอร์มของคุณถูกส่งแล้ว',
+              icon: 'success',
+              confirmButtonText: 'ตกลง'
+            }).then(() => {
+              window.location.href = `selectForm.html?id=${encodeURIComponent(autoId)}&name=${encodeURIComponent(name)}`;
+            });
+          })
+          .catch(error => {
+            Swal.fire({
+              title: 'เกิดข้อผิดพลาด!',
+              text: 'ไม่สามารถส่งฟอร์มได้',
+              icon: 'error',
+              confirmButtonText: 'ตกลง'
+            });
+            document.getElementById('submitButton').disabled = false;
+          });
+
+      }
+
+      // ฟังก์ชันถอดรหัส (ใช้เมื่อได้รับข้อมูล)
+      function decodeId(encodedId) {
+        return atob(encodedId); // Base64 decoding
+      }
+    </script>
+
+
+
+
+</body>
+
+</html>
