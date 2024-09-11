@@ -25,7 +25,7 @@
             event.preventDefault();
             const id = document.getElementById('idInput').value;
 
-            fetch(`https://script.google.com/macros/s/AKfycbxgRVTUN_F1Jh19g0h1bBvUmF66utR2MpINJYfXs-jJS_L7fsEBf1-FKRtqIEn6km4NjQ/exec?id=${encodeURIComponent(id)}`)
+            fetch(`https://script.google.com/macros/s/AKfycbzWdzzzy7uhmjCruB0TN5omha34GCAFDP_eSxFUaEElCalnn3bGl6VyfEA8JJ7zkxkfug/exec?Id_P=${encodeURIComponent(id)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -36,7 +36,10 @@
                             <p>ชื่อ: ${data.name || 'N/A'}</p>
                             <p>นามสกุล: ${data.surname || 'N/A'}</p>
                             <p>บัตรประชาชน: ${data.Id_P || 'N/A'}</p>
-                            <a href="selectForm.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(data.name || 'N/A')}" class="btn btn-success">เข้าสู่หน้า Select Form</a>
+                            <p>เพศ: ${data.gender || 'N/A'}</p>
+                            <p>อายุ: ${data.age || 'N/A'}</p>
+                            <p>สถานะ: ${data.career || 'N/A'}</p>
+                            <a href="selectForm.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(data.name || 'N/A')}&Id_P=${encodeURIComponent(data.Id_P || 'N/A')}" class="btn btn-success">เข้าสู่หน้า Select Form</a>
                         `;
                         document.getElementById('result').innerHTML = resultHTML;
                     }
