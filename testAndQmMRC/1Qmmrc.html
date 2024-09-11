@@ -11,9 +11,11 @@
         body {
             background-image: linear-gradient(to right, rgba(12, 123, 178, 0.871), rgba(237, 237, 220, 0.874));
         }
+
         .container {
             margin-top: 20px;
         }
+
         .question-card {
             padding: 20px;
             border: 1px solid #ddd;
@@ -21,13 +23,16 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .question-card img {
             max-width: 100%;
         }
+
         .d-flex {
             display: flex;
             justify-content: space-between;
         }
+
         .progress-bar {
             background-color: #00796b;
         }
@@ -44,33 +49,46 @@
             <div class="question">
                 <p>คำถาม 1/5</p>
                 <div class="progress mb-3">
-                    <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20"
+                        aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
             <center><img src="../image/1.jpg" class="img-fluid mb-3" width="50%"><br><br>
-            <h5><b>รู้สึกหายใจหอบ ขณะออกกำลังกายอย่างหนักเท่านั้น ? </b></h5>
-            <br></center>
+                <h5><b>รู้สึกหายใจหอบ ขณะออกกำลังกายอย่างหนักเท่านั้น ? </b></h5>
+                <br>
+            </center>
             <div class="d-flex">
-                <button class="form-control btn btn-success" style="margin-right: 10px;" onclick="submitAnswer('ใช่')">ใช่</button>
+                <button class="form-control btn btn-success" style="margin-right: 10px;"
+                    onclick="submitAnswer('ใช่')">ใช่</button>
                 <button class="form-control btn btn-danger" onclick="submitAnswer('ไม่ใช่')">ไม่ใช่</button>
             </div>
         </div>
     </div>
     <br><br>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () { 
-            // Retrieve values from localStorage
-            const storedId_P = localStorage.getItem('userId_P');
-            const storedName = localStorage.getItem('userName');
-            const storedSurname = localStorage.getItem('userSurname');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const storedId_P = urlParams.get('Id_P');
+            const storedName = urlParams.get('name');
+            const storedSurname = urlParams.get('surname');
 
-            // Check if values exist
-            if (!storedId_P || !storedName || !storedSurname) {
-                window.location.href = '../index.html';
-                return;
+            // Check if values exist in URL parameters
+            if (storedId_P && storedName && storedSurname) {
+                // Save values to localStorage
+                localStorage.setItem('userId_P', storedId_P);
+                localStorage.setItem('userName', storedName);
+                localStorage.setItem('userSurname', storedSurname);
             }
+            // } else {
+            //     // Redirect to index.html if missing data
+            //     window.location.href = '../index.html';
+            //     return;
+            // }
 
             // Display retrieved values
             document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
@@ -94,24 +112,24 @@
                     },
                     body: JSON.stringify(data)
                 })
-                .then(response => response.json())
-                .then(result => {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Answer submitted successfully',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
+                    .then(response => response.json())
+                    .then(result => {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Answer submitted successfully',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error submitting answer:', error);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while submitting the answer.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     });
-                })
-                .catch(error => {
-                    console.error('Error submitting answer:', error);
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'An error occurred while submitting the answer.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                });
             }
         });
     </script>

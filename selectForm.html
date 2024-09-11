@@ -113,7 +113,7 @@
                             <img src="./image/copd.jpg" class="img-fluid" alt="COPD Image" width="45%" height="50%">
                         </div>
                         <hr>
-                        <a href="./testAndQmMRC/1Qmmrc.html" class="btn btn-outline-info">กรอกข้อมูล</a>
+                        <a href="./testAndQmMRC/1Qmmrc.html" class="btn btn-outline-info"  id="submitLink" onclick="goToMMRC()">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
@@ -201,12 +201,22 @@
             const urlParams = new URLSearchParams(window.location.search);
             const Id_P = urlParams.get('Id_P');
             const name = urlParams.get('name');
+            const surname = urlParams.get('surname');
 
             // Retrieve Id_P and name from localStorage
             const storedId_P = localStorage.getItem('userId_P');
             const storedName = localStorage.getItem('userName');
+            const storedSurname = localStorage.getItem('surname')
 
-            // ตรวจสอบว่ามี session ใน localStorage หรือไม่ หากไม่มีให้บังคับกลับไปหน้า login
+
+            // สร้าง URL พร้อมพารามิเตอร์
+            const url = `./testAndQmMRC/1Qmmrc.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+
+            // เปลี่ยน href ของลิงก์ให้ไปยัง URL ที่สร้างขึ้น
+            document.getElementById('submitLink').setAttribute('href', url);
+
+
+            // // ตรวจสอบว่ามี session ใน localStorage หรือไม่ หากไม่มีให้บังคับกลับไปหน้า login
             if (!storedId_P && !Id_P) {
                 window.location.href = 'index.html';
                 return; // หยุดการทำงานถัดไปเพื่อป้องกันการเกิดข้อผิดพลาด
@@ -234,7 +244,7 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Fetched Data:', data);
+                        // console.log('Fetched Data:', data);
                         document.getElementById('name').textContent = `ชื่อ: ${data.name || 'N/A'}`;
                         document.getElementById('surname').textContent = `นามสกุล: ${data.surname || 'N/A'}`;
                     })

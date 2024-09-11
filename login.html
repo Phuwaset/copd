@@ -13,7 +13,7 @@
         <form id="loginForm" class="mt-4">
             <div class="form-group">
                 <label for="idInput">เลขบัตรประชาชน:</label>
-                <input type="text" id="idInput" class="form-control" required>
+                <input type="text" id="idInput" class="form-control" required pattern="\d{13}" title="กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก" maxlength="13">
             </div>
             <button type="submit" class="btn btn-primary mt-3">ค้นหา</button>
         </form>
@@ -39,7 +39,7 @@
                             <p>เพศ: ${data.gender || 'N/A'}</p>
                             <p>อายุ: ${data.age || 'N/A'}</p>
                             <p>สถานะ: ${data.career || 'N/A'}</p>
-                            <a href="selectForm.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(data.name || 'N/A')}&Id_P=${encodeURIComponent(data.Id_P || 'N/A')}" class="btn btn-success">เข้าสู่หน้า Select Form</a>
+                            <a href="selectForm.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(data.name || 'N/A')}&Id_P=${encodeURIComponent(data.Id_P || 'N/A')}&surname=${encodeURIComponent(data.surname || 'N/A')}" class="btn btn-success">เข้าสู่หน้า Select Form</a>
                         `;
                         document.getElementById('result').innerHTML = resultHTML;
                     }

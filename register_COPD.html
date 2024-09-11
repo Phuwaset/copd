@@ -221,10 +221,15 @@
             }).then(() => {
               // เก็บข้อมูลใน localStorage ก่อนย้ายไปหน้า selectForm.html
               localStorage.setItem('userId', encodedId); // เก็บ id ที่เข้ารหัส
+              localStorage.setItem('Id_P',Id_P);
               localStorage.setItem('userName', name); // เก็บชื่อ
+              localStorage.setItem('surname',surname);
 
+              console.log(Id_P);
+              console.log(name);
+              console.log(surname);
               // เปลี่ยนหน้าไปที่ selectForm.html พร้อม encodedId
-              window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&name=${encodeURIComponent(name)}`;
+              window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             });
           })
           .catch(error => {
