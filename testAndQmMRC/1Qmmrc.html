@@ -91,29 +91,28 @@
         const isYes = answer === 'ใช่';
 
         // ส่งคำตอบไปยัง Google Apps Script ผ่าน POST Request
-        fetch('https://script.google.com/macros/s/AKfycbyg54gww7SJkGL4XXxcX3rwuMhBWU9I0czle4itsDdAdvCR4AknELtYPewBrBacI5-JeA/exec', {
+        $.ajax({
+            url: 'https://script.google.com/macros/s/AKfycbyg54gww7SJkGL4XXxcX3rwuMhBWU9I0czle4itsDdAdvCR4AknELtYPewBrBacI5-JeA/exec',
             method: 'POST',
-            body: JSON.stringify({
+            contentType: 'application/json',
+            data: JSON.stringify({
                 Id_P: Id_P,
                 mMRC_Question1: isYes
             }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === "success") {
+            success: function (response) {
+                if (response.result === "success") {
                     Swal.fire('สำเร็จ!', 'บันทึกข้อมูลสำเร็จ', 'success');
                 } else {
                     Swal.fire('ผิดพลาด!', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
                 }
-            })
-            .catch(error => {
+            },
+            error: function (xhr, status, error) {
                 Swal.fire('ผิดพลาด!', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
                 console.error('Error:', error);
-            });
+            }
+        });
     }
+
 
 
     document.addEventListener('DOMContentLoaded', function () {
