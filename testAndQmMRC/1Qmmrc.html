@@ -37,12 +37,20 @@
             background-color: #00796b;
         }
     </style>
-</head>
 
 <body>
     <div class="container">
-        <p id="name">ชื่อ: </p>
-        <p id="surname">นามสกุล: </p>
+        <!-- Displaying Name, Surname, and Back Button in one row -->
+        <div class="form-inline">
+            <!-- <label for="name" class="form-label">ชื่อ:</label> -->
+            <p id="name" class="form-control-static"></p>
+
+            <!-- <label for="surname" class="form-label">นามสกุล:</label> -->
+            <p id="surname" class="form-control-static"></p>
+
+            <button class="btn-back" onclick="goBack()">กลับ</button>
+        </div>
+
         <div class="question-card">
             <h2>แบบประเมิน mMRC</h2>
             <p>(แบบประเมินอาการหอบเหนื่อยของผู้ป่วยโรคปอดอุดกั้นเรื้อรัง)</p>
@@ -64,75 +72,88 @@
             </div>
         </div>
     </div>
-    <br><br>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const storedId_P = urlParams.get('Id_P');
-            const storedName = urlParams.get('name');
-            const storedSurname = urlParams.get('surname');
+</body>
 
-            // Check if values exist in URL parameters
-            if (storedId_P && storedName && storedSurname) {
-                // Save values to localStorage
-                localStorage.setItem('userId_P', storedId_P);
-                localStorage.setItem('userName', storedName);
-                localStorage.setItem('userSurname', storedSurname);
-            }
-            // } else {
-            //     // Redirect to index.html if missing data
-            //     window.location.href = '../index.html';
-            //     return;
-            // }
+<br><br>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const storedId_P = urlParams.get('Id_P');
+        const storedName = urlParams.get('name');
+        const storedSurname = urlParams.get('surname');
 
-            // Display retrieved values
-            document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
-            document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
+        // Check if values exist in URL parameters
+        if (storedId_P && storedName && storedSurname) {
+            // Save values to localStorage
+            localStorage.setItem('userId_P', storedId_P);
+            localStorage.setItem('userName', storedName);
+            localStorage.setItem('userSurname', storedSurname);
+        }else {
+            // Redirect to index.html if missing data
+            window.location.href = '../index.html';
+            return;
+        }
 
-            // Function to submit answer
-            function submitAnswer(answer) {
-                const questionIndex = 1; // Assuming this is question 1
+        // Display retrieved values
+        document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
+        document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
 
-                const data = {
-                    Id_P: storedId_P,
-                    name: storedName,
-                    surname: storedSurname,
-                    [`mMRC_Question${questionIndex}`]: answer
-                };
+        // Function to submit answer
+        function submitAnswer(answer) {
+            const storedId_P = localStorage.getItem('userId_P'); // ดึง Id_P จาก localStorage
+            const data = {
+                Id_P: storedId_P,
+                mMRC_Question1: answer
+            };
 
-                fetch('https://script.google.com/macros/s/AKfycbyqv2iHP854VcmMBYiUNZh7A8nYWIjmjIPckuk3DwMdOU9AKrM9yadGUqkcpcYI29feeQ/exec', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => response.json())
-                    .then(result => {
+            fetch('https://script.google.com/macros/s/AKfycbwqPVwn8iRjOLJBpQF14GxbSMVgyqY6p6ZBAKIEbfct2Nen6zA6oEwKA3RyPcJCroIoag/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === 'success') {
                         Swal.fire({
                             title: 'Success!',
                             text: 'Answer submitted successfully',
                             icon: 'success',
                             confirmButtonText: 'OK'
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error submitting answer:', error);
+                    } else {
                         Swal.fire({
                             title: 'Error!',
-                            text: 'An error occurred while submitting the answer.',
+                            text: result.message,
                             icon: 'error',
                             confirmButtonText: 'OK'
                         });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting answer:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while submitting the answer.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
                     });
-            }
-        });
-    </script>
+                });
+        }
+
+        // Assign the function to global scope so it can be accessed from onclick
+        window.submitAnswer = submitAnswer;
+    });
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 
 </html>
