@@ -93,7 +93,7 @@
             localStorage.setItem('userId_P', storedId_P);
             localStorage.setItem('userName', storedName);
             localStorage.setItem('userSurname', storedSurname);
-        }else {
+        } else {
             // Redirect to index.html if missing data
             window.location.href = '../index.html';
             return;
@@ -111,7 +111,7 @@
                 mMRC_Question1: answer
             };
 
-            fetch('https://script.google.com/macros/s/AKfycbwqPVwn8iRjOLJBpQF14GxbSMVgyqY6p6ZBAKIEbfct2Nen6zA6oEwKA3RyPcJCroIoag/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbyJjgNgAdkkqk3HXjJSp8zmAaa1rD96GUq9BJM72kcD1Cu30rKR4TitsvgQ9sAOEVlTww/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -120,6 +120,7 @@
             })
                 .then(response => response.json())
                 .then(result => {
+                    console.log('Response:', result);  // แสดงผล response เพื่อดูข้อมูล
                     if (result.status === 'success') {
                         Swal.fire({
                             title: 'Success!',
@@ -130,7 +131,7 @@
                     } else {
                         Swal.fire({
                             title: 'Error!',
-                            text: result.message,
+                            text: result.message || 'Unknown error occurred.',
                             icon: 'error',
                             confirmButtonText: 'OK'
                         });
@@ -145,6 +146,7 @@
                         confirmButtonText: 'OK'
                     });
                 });
+
         }
 
         // Assign the function to global scope so it can be accessed from onclick
