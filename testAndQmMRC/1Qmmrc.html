@@ -42,12 +42,8 @@
     <div class="container">
         <!-- Displaying Name, Surname, and Back Button in one row -->
         <div class="form-inline">
-            <!-- <label for="name" class="form-label">ชื่อ:</label> -->
             <p id="name" class="form-control-static"></p>
-
-            <!-- <label for="surname" class="form-label">นามสกุล:</label> -->
             <p id="surname" class="form-control-static"></p>
-
             <button class="btn-back" onclick="goBack()">กลับ</button>
         </div>
 
@@ -61,7 +57,9 @@
                         aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
-            <center><img src="../image/1.jpg" class="img-fluid mb-3" width="50%"><br><br>
+            <center>
+                <img src="../image/1.jpg" class="img-fluid mb-3" width="50%">
+                <br><br>
                 <h5><b>รู้สึกหายใจหอบ ขณะออกกำลังกายอย่างหนักเท่านั้น ? </b></h5>
                 <br>
             </center>
@@ -80,110 +78,74 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
 
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const storedId_P = urlParams.get('Id_P');
-            const storedName = urlParams.get('name');
-            const storedSurname = urlParams.get('surname');
-    
-            // Check if values exist in URL parameters
-            if (storedId_P && storedName && storedSurname) {
-                // Save values to localStorage
-                localStorage.setItem('userId_P', storedId_P);
-                localStorage.setItem('userName', storedName);
-                localStorage.setItem('userSurname', storedSurname);
-            } else {
-                // Redirect to index.html if missing data
-                window.location.href = '../index.html';
-                return;
-            }
-    
-            // Display retrieved values
-            document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
-            document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
-    
-            // Function to submit answer
-            function submitAnswer(answer) {
-                // ตรวจสอบว่า answer มีค่าหรือไม่
-                if (!answer) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Please provide an answer.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
-    
-                const storedId_P = localStorage.getItem('userId_P'); // ดึง Id_P จาก localStorage
-    
-                // ตรวจสอบว่า Id_P มีค่าใน localStorage หรือไม่
-                if (!storedId_P) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'No user data found. Please log in again.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
-    
-                const data = {
-                    Id_P: storedId_P,
-                    mMRC_Question1: answer
-                };
-    
-                // ส่งคำตอบด้วย POST request
-                fetch('https://script.google.com/macros/s/AKfycbzoyB7lQWERJ0E83Pzq-zPi4Y1MyIa52HlwowezKJyGlONhBtnEaVBZIltxSRdOF_j7/exec', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(result => {
-                    console.log('Response:', result);  // แสดงผล response เพื่อดูข้อมูล
-                    if (result.status === 'success') {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Answer submitted successfully',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: result.message || 'Unknown error occurred.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error submitting answer:', error);
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'An error occurred while submitting the answer.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                });
-            }
-    
-            // Assign the function to global scope so it can be accessed from onclick
-            window.submitAnswer = submitAnswer;
-        });
-    
-        // ฟังก์ชันสำหรับย้อนกลับหน้า
-        function goBack() {
-            window.history.back();
+<script>
+    function submitAnswer(answer) {
+        const Id_P = localStorage.getItem('userId_P'); // ดึงเลขบัตรประชาชนจาก localStorage
+
+        if (!Id_P) {
+            alert("ไม่พบข้อมูล Id_P");
+            return;
         }
-    </script>
-    
+
+        // แปลงค่าตอบกลับเป็น true หรือ false
+        const isYes = answer === 'ใช่';
+
+        // ส่งคำตอบไปยัง Google Apps Script ผ่าน POST Request
+        fetch('https://script.google.com/macros/s/AKfycbyg54gww7SJkGL4XXxcX3rwuMhBWU9I0czle4itsDdAdvCR4AknELtYPewBrBacI5-JeA/exec', {
+            method: 'POST',
+            body: JSON.stringify({
+                Id_P: Id_P,
+                mMRC_Question1: isYes
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    Swal.fire('สำเร็จ!', 'บันทึกข้อมูลสำเร็จ', 'success');
+                } else {
+                    Swal.fire('ผิดพลาด!', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('ผิดพลาด!', 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
+                console.error('Error:', error);
+            });
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const storedId_P = urlParams.get('Id_P');
+        const storedName = urlParams.get('name');
+        const storedSurname = urlParams.get('surname');
+
+        // Check if values exist in URL parameters
+        if (storedId_P && storedName && storedSurname) {
+            // Save values to localStorage
+            localStorage.setItem('userId_P', storedId_P);
+            localStorage.setItem('userName', storedName);
+            localStorage.setItem('userSurname', storedSurname);
+        } else {
+            // Redirect to index.html if missing data
+            window.location.href = '../index.html';
+            return;
+        }
+
+        // Display retrieved values
+        document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
+        document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
+    });
+
+    // ฟังก์ชันสำหรับย้อนกลับหน้า
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
 </body>
 
 </html>
