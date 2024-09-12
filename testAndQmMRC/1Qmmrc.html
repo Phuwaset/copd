@@ -79,45 +79,71 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const storedId_P = urlParams.get('Id_P');
-        const storedName = urlParams.get('name');
-        const storedSurname = urlParams.get('surname');
 
-        // Check if values exist in URL parameters
-        if (storedId_P && storedName && storedSurname) {
-            // Save values to localStorage
-            localStorage.setItem('userId_P', storedId_P);
-            localStorage.setItem('userName', storedName);
-            localStorage.setItem('userSurname', storedSurname);
-        } else {
-            // Redirect to index.html if missing data
-            window.location.href = '../index.html';
-            return;
-        }
-
-        // Display retrieved values
-        document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
-        document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
-
-        // Function to submit answer
-        function submitAnswer(answer) {
-            const storedId_P = localStorage.getItem('userId_P'); // ดึง Id_P จาก localStorage
-            const data = {
-                Id_P: storedId_P,
-                mMRC_Question1: answer
-            };
-
-            fetch('https://script.google.com/macros/s/AKfycbyJjgNgAdkkqk3HXjJSp8zmAaa1rD96GUq9BJM72kcD1Cu30rKR4TitsvgQ9sAOEVlTww/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const storedId_P = urlParams.get('Id_P');
+            const storedName = urlParams.get('name');
+            const storedSurname = urlParams.get('surname');
+    
+            // Check if values exist in URL parameters
+            if (storedId_P && storedName && storedSurname) {
+                // Save values to localStorage
+                localStorage.setItem('userId_P', storedId_P);
+                localStorage.setItem('userName', storedName);
+                localStorage.setItem('userSurname', storedSurname);
+            } else {
+                // Redirect to index.html if missing data
+                window.location.href = '../index.html';
+                return;
+            }
+    
+            // Display retrieved values
+            document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
+            document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
+    
+            // Function to submit answer
+            function submitAnswer(answer) {
+                // ตรวจสอบว่า answer มีค่าหรือไม่
+                if (!answer) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Please provide an answer.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+    
+                const storedId_P = localStorage.getItem('userId_P'); // ดึง Id_P จาก localStorage
+    
+                // ตรวจสอบว่า Id_P มีค่าใน localStorage หรือไม่
+                if (!storedId_P) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'No user data found. Please log in again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+    
+                const data = {
+                    Id_P: storedId_P,
+                    mMRC_Question1: answer
+                };
+    
+                // ส่งคำตอบด้วย POST request
+                fetch('https://script.google.com/macros/s/AKfycbzxwWR4Z3dhHGtya8NhUus6qLANV6_m-DBa_RC6fLiuef2A-ZQDBaPmnodEtOU7Z_aHQg/exec', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
                 .then(response => response.json())
                 .then(result => {
                     console.log('Response:', result);  // แสดงผล response เพื่อดูข้อมูล
@@ -146,16 +172,18 @@
                         confirmButtonText: 'OK'
                     });
                 });
-
+            }
+    
+            // Assign the function to global scope so it can be accessed from onclick
+            window.submitAnswer = submitAnswer;
+        });
+    
+        // ฟังก์ชันสำหรับย้อนกลับหน้า
+        function goBack() {
+            window.history.back();
         }
-
-        // Assign the function to global scope so it can be accessed from onclick
-        window.submitAnswer = submitAnswer;
-    });
-    function goBack() {
-        window.history.back();
-    }
-</script>
+    </script>
+    
 </body>
 
 </html>
