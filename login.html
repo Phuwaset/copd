@@ -25,7 +25,7 @@
             event.preventDefault();
             const id = document.getElementById('idInput').value;
 
-            fetch(`https://script.google.com/macros/s/AKfycbzAtQLyZCx9ekWHMv0RvpZMokKO4y1Bv320q-IJ70efAU26A8wSTt1QU7F5FqxXL9zmHA/exec?Id_P=${encodeURIComponent(id)}`)
+            fetch(`https://script.google.com/macros/s/AKfycbyPb8ZYHzUxXsatykGHGDmRKusoNC0tr4_VEyUtcnS0PSfvQSZAMrAvg14VDOtyjypZ/exec?Id_P=${encodeURIComponent(id)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
