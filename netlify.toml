@@ -1,0 +1,12 @@
+[build]
+  publish = "public"  # ระบุโฟลเดอร์ที่เก็บไฟล์ที่ถูกสร้างขึ้น เช่น "public"
+
+[[redirects]]
+  from = "/api/*"  # กำหนดเส้นทางที่จะเปลี่ยนเส้นทางไปยัง Google Apps Script URL
+  to = "https://script.google.com/macros/s/AKfycbw24vIFgw4wdM_5Zq7CGRiWFOZ2lSlvu1RbLFTQ0ribAkJ1UqCWed0el51HX21H6HxvXQ/exec"
+  status = 200
+  headers = [
+    "Access-Control-Allow-Origin: *",  # อนุญาตให้ทุกโดเมนเข้าถึงได้
+    "Access-Control-Allow-Methods: GET, POST, OPTIONS",  # กำหนดวิธีการที่อนุญาต
+    "Access-Control-Allow-Headers: Content-Type"  # อนุญาต headers ที่ระบุ
+  ]

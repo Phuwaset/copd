@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         body {
-            /* background-color: #e0f7fa; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,10 +50,8 @@
 
     <div class="container">
         <div class="row">
-            <!-- First Question -->
             <div class="col"></div>
             <div class="col-7">
-                <!-- Question 1 -->
                 <div class="card p-3">
                     <h2>แบบประเมิน mMRC</h2>
                     <p>(แบบประเมินอาการหอบเหนื่อยของผู้ป่วยโรคปอดอุดกั้นเรื้อรัง)</p>
@@ -66,10 +63,13 @@
                         </div>
                     </div>
                     <center><img src="../image/4.jpg" class="img-fluid mb-3" width="50%"><br><br>
-                    <h5><b>ต้องหยุดเพื่อหายใจ หลังจากเดินได้ประมาณ 100เมตร หรือหลังจากเดินได้สักพัก บนพื้นราบ </b></h5></center><br>
+                        <h5><b>ต้องหยุดเพื่อหายใจ หลังจากเดินได้ประมาณ 100เมตร หรือหลังจากเดินได้สักพัก บนพื้นราบ</b>
+                        </h5>
+                    </center><br>
                     <div class="d-flex justify-content-between">
-                        <button class="form-control btn btn-success" style="margin-right: 10px;">ใช่</button>
-                        <button class="form-control btn btn-danger">ไม่ใช่</button>
+                        <button class="form-control btn btn-success" style="margin-right: 10px;"
+                            onclick="submitAnswer('ใช่')">ใช่</button>
+                        <button class="form-control btn btn-danger" onclick="submitAnswer('ไม่ใช่')">ไม่ใช่</button>
                     </div>
                 </div>
             </div>
@@ -77,9 +77,74 @@
         </div>
     </div>
 
-   
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const storedId_P = urlParams.get('Id_P');
+            const data = urlParams.get('data');
+
+            // Check if values exist in URL parameters
+            if (!storedId_P || !data) {
+                // Redirect to index.html if missing data
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Parse data from URL
+            const parsedData = JSON.parse(decodeURIComponent(data));
+
+            // Save values to localStorage
+            localStorage.setItem('userId_P', storedId_P);
+            localStorage.setItem('mMRC_Data', JSON.stringify({
+                [storedId_P]: {
+                    ...parsedData
+                }
+            }));
+
+            console.log('Id_P:', storedId_P);
+            console.log('mMRC_Data:', parsedData);
+        });
+
+        // Function to handle answer submission
+        function submitAnswer(answer) {
+            const storedId_P = localStorage.getItem('userId_P');
+            let mMRC_Data = JSON.parse(localStorage.getItem('mMRC_Data')) || {};
+
+            if (!storedId_P || !mMRC_Data[storedId_P]) {
+                Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูลใน localStorage', 'error');
+                return;
+            }
+
+            // Update object with 4Qmmrc answer
+            mMRC_Data[storedId_P]["4Qmmrc"] = answer;
+
+            // Save updated object back to localStorage
+            localStorage.setItem('mMRC_Data', JSON.stringify(mMRC_Data));
+
+            // Log the updated object
+            console.log('Updated mMRC_Data:', mMRC_Data);
+
+            // Prepare query string for next question
+            const queryString = `?Id_P=${encodeURIComponent(storedId_P)}&data=${encodeURIComponent(JSON.stringify(mMRC_Data[storedId_P]))}`;
+
+            // Display success message and redirect to next question (5Qmmrc.html)
+            Swal.fire({
+                title: 'สำเร็จ!',
+                text: 'บันทึกข้อมูลสำเร็จ',
+                icon: 'success',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                window.location.href = `5Qmmrc.html${queryString}`;
+            });
+        }
+    </script>
+
 </body>
 
 </html>

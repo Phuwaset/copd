@@ -82,46 +82,45 @@
 
 <script>
     function submitAnswer(answer) {
-    const Id_P = localStorage.getItem('userId_P'); // ดึงเลขบัตรประชาชนจาก localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const Id_P = urlParams.get('Id_P'); // ดึงเลขบัตรประชาชนจาก URL
+        const name = urlParams.get('name');
+        const surname = urlParams.get('surname');
 
-    if (!Id_P) {
-        Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูล Id_P ใน localStorage', 'error');
-        return;
-    }
-    
-    // แปลงคำตอบเป็น true หรือ false
-    const isYes = answer === 'ใช่';
-
-    console.log('Id_P:', Id_P);
-    console.log('mMRC_Question1', isYes); // moved after isYes is initialized
-
-    // สร้าง FormData สำหรับส่งข้อมูล
-    const formData = new FormData();
-    formData.append('Id_P', Id_P);
-    formData.append('mMRC_Question1', isYes);
-
-    // ส่งคำตอบไปยัง Google Apps Script ผ่าน POST Request
-    fetch('https://script.google.com/macros/s/AKfycbwxcfDgVQQnUGVLNDT49piIIlgRmyWS13JGa_ES7L8aRC_vZm-H_05fY_LakCDXTZ1HOw/exec', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json()) // แปลง response เป็น JSON
-    .then(data => {
-        if (data.status === 'success') { // เปลี่ยนมาเช็คที่ 'status' แทน
-            Swal.fire('สำเร็จ!', 'บันทึกข้อมูลสำเร็จ', 'success');
-        } else {
-            Swal.fire('ผิดพลาด!', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+        if (!Id_P) {
+            Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูล Id_P', 'error');
+            return;
         }
-    })
-    .catch(error => {
-        Swal.fire('ผิดพลาด!', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
-        console.error('Error details:', error);
-    });
-}
 
+        // ใช้ข้อความธรรมดา
+        const answerText = answer === 'ใช่' ? 'ใช่' : 'ไม่ใช่';
 
+        // ตรวจสอบว่ามีข้อมูล mMRC อยู่ใน localStorage หรือไม่ ถ้าไม่มีให้สร้าง object ใหม่
+        let mMRC_Data = JSON.parse(localStorage.getItem('mMRC_Data')) || {};
 
+        // เก็บคำตอบของ 1Qmmrc ใน object และลบ Id_P อื่นๆ ถ้าไม่ต้องการเก็บ
+        mMRC_Data = { [Id_P]: { "1Qmmrc": answerText } }; // เก็บเฉพาะ Id_P ปัจจุบัน
 
+        // เก็บ object กลับไปยัง localStorage
+        localStorage.setItem('mMRC_Data', JSON.stringify(mMRC_Data));
+
+        console.log('Id_P:', Id_P);
+        console.log('mMRC_Data:', mMRC_Data);
+
+        // สร้าง query string จาก object
+        const queryString = `?Id_P=${encodeURIComponent(Id_P)}&data=${encodeURIComponent(JSON.stringify(mMRC_Data[Id_P]))}`;
+
+        // แสดงการแจ้งเตือนก่อนเปลี่ยนหน้า
+        Swal.fire({
+            title: 'สำเร็จ!',
+            text: 'บันทึกข้อมูลใน localStorage สำเร็จ',
+            icon: 'success',
+            confirmButtonText: 'ตกลง'
+        }).then(() => {
+            // เปลี่ยนหน้าเมื่อผู้ใช้กดปุ่ม "OK"
+            window.location.href = `2Qmmrc.html${queryString}`;
+        });
+    }
 
 
     document.addEventListener('DOMContentLoaded', function () {
