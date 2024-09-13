@@ -225,9 +225,9 @@
               localStorage.setItem('userName', name); // เก็บชื่อ
               localStorage.setItem('surname',surname);
 
-              console.log(Id_P);
-              console.log(name);
-              console.log(surname);
+              // console.log(Id_P);
+              // console.log(name);
+              // console.log(surname);
               // เปลี่ยนหน้าไปที่ selectForm.html พร้อม encodedId
               window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             });
