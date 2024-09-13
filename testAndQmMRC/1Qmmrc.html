@@ -82,42 +82,44 @@
 
 <script>
     function submitAnswer(answer) {
-        const Id_P = localStorage.getItem('userId_P'); // ดึงเลขบัตรประชาชนจาก localStorage
+    const Id_P = localStorage.getItem('userId_P'); // ดึงเลขบัตรประชาชนจาก localStorage
 
-        if (!Id_P) {
-            alert("ไม่พบข้อมูล Id_P");
-            return;
-        }
-        console.log(Id_P);
-
-        // แปลงค่าตอบกลับเป็น true หรือ false
-        const isYes = answer === 'ใช่';
-
-        // ส่งคำตอบไปยัง Google Apps Script ผ่าน POST Request
-        fetch('https://script.google.com/macros/s/AKfycbw24vIFgw4wdM_5Zq7CGRiWFOZ2lSlvu1RbLFTQ0ribAkJ1UqCWed0el51HX21H6HxvXQ/exec', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Id_P: Id_P,
-                mMRC_Question1: isYes
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === "success") {
-                    Swal.fire('สำเร็จ!', 'บันทึกข้อมูลสำเร็จ', 'success');
-                } else {
-                    Swal.fire('ผิดพลาด!', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
-                }
-            })
-            .catch(error => {
-                Swal.fire('ผิดพลาด!', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
-                console.error('Error details:', error);
-            });
-
+    if (!Id_P) {
+        Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูล Id_P ใน localStorage', 'error');
+        return;
     }
+    
+    // แปลงคำตอบเป็น true หรือ false
+    const isYes = answer === 'ใช่';
+
+    console.log('Id_P:', Id_P);
+    console.log('mMRC_Question1', isYes); // moved after isYes is initialized
+
+    // สร้าง FormData สำหรับส่งข้อมูล
+    const formData = new FormData();
+    formData.append('Id_P', Id_P);
+    formData.append('mMRC_Question1', isYes);
+
+    // ส่งคำตอบไปยัง Google Apps Script ผ่าน POST Request
+    fetch('https://script.google.com/macros/s/AKfycbwxcfDgVQQnUGVLNDT49piIIlgRmyWS13JGa_ES7L8aRC_vZm-H_05fY_LakCDXTZ1HOw/exec', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json()) // แปลง response เป็น JSON
+    .then(data => {
+        if (data.status === 'success') { // เปลี่ยนมาเช็คที่ 'status' แทน
+            Swal.fire('สำเร็จ!', 'บันทึกข้อมูลสำเร็จ', 'success');
+        } else {
+            Swal.fire('ผิดพลาด!', 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+        }
+    })
+    .catch(error => {
+        Swal.fire('ผิดพลาด!', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
+        console.error('Error details:', error);
+    });
+}
+
+
 
 
 
