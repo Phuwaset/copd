@@ -13,34 +13,27 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-image: linear-gradient(to right, rgba(12, 123, 178, 0.871), rgba(237, 237, 220, 0.874));
+        }
+        .container {
+            margin-top: 20px;
+        }
+
+        .question-card {
             padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+        .question-card img {
+            max-width: 100%;
         }
 
-        h2 {
-            color: #00796b;
-            font-size: 1.4em;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #555;
-            font-size: 1.1em;
-            text-align: center;
-        }
-
-        img {
-            border-radius: 10px;
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
         }
 
         .progress-bar {
@@ -66,7 +59,7 @@
                         </div>
                     </div>
                     <center>
-                        <img src="../image/2.jpg" class="img-fluid mb-3" width="50%"><br><br>
+                        <img src="../image/2.jpg" class="img-fluid mb-3" width="70%"><br><br>
                         <h5><b>หายใจหอบเมื่อเดินอย่างเร่งรีบบนพื้นราบ หรือเมื่อเดินขึ้นเนินสูงชัน</b></h5>
                     </center><br>
                     <div class="d-flex justify-content-between">
@@ -137,7 +130,7 @@
             // Display success message and redirect to next question (3Qmmrc.html)
             Swal.fire({
                 title: 'สำเร็จ!',
-                text: 'บันทึกข้อมูลสำเร็จ',
+                text: '',
                 icon: 'success',
                 confirmButtonText: 'ตกลง'
             }).then(() => {

@@ -282,8 +282,7 @@
                     </div>
 
 
-                    <button class="btn btn-primary mt-3" type="button"
-                      onclick="submitCAT1()">บันทึกและดำเนินการต่อ</button>
+                    <button class="btn btn-primary mt-3" type="button" onclick="submitCAT1()">แปลผล</button>
                   </div>
                 </div>
               </div>
@@ -300,11 +299,15 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <img src="../image/a.jpg" width="50%" alt="">
+
+                  - mMRC : คะแนน 0-1 <br>
+                  - CAT : คะแนน < 10 <br>
+                    - ความเสี่ยงต่อการกำเริบของโรค : น้อย
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Understood</button>
+                  <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button>
                 </div>
               </div>
             </div>
@@ -318,11 +321,17 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <img src="../image/Letter-B-PNG-High-Quality-Image.png" width="50%" alt="">
+                  <hr>
+                  <p>- mMRC : คะแนน ≥ 2 <br>
+                    - CAT : คะแนน ≥ 10 <br>
+                    - ความเสี่ยงต่อการกำเริบของโรค : น้อย
+
+                  </p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Understood</button>
+                  <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button>
                 </div>
               </div>
             </div>
@@ -336,11 +345,16 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  ...
+                  <img src="../image/e_sum.png" width="50%" alt="">
+                  <hr>
+                  <p>- mMRC : คะแนน 3-4 <br>
+                    - CAT : คะแนน > 30 <br>
+                    - ความเสี่ยงต่อการกำเริบของโรค : น้อย
+                  </p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Understood</button>
+                  <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button>
                 </div>
               </div>
             </div>
@@ -358,7 +372,7 @@
             function submitCAT1() {
               const storedId_P = localStorage.getItem('userId_P');
               const CAT1_Data = {};
-
+              document.getElementById('confirmBtn').onclick = redirectToSelectForm;
               // กำหนดคำถามและชื่อของตัวเลือกที่ใช้ใน radio inputs
               const questions = [
                 { text: 'ข้าพเจ้าไม่เคยมีอาการไอ', name: 'question1' },
@@ -430,21 +444,35 @@
               console.log('Stored CAT1_Data:', JSON.parse(localStorage.getItem('CAT1_Data')));
 
               // แสดง modal ที่เหมาะสม
-              if (mMRC_Score >= 0 && mMRC_Score <= 1 && CAT_Score < 10) {
-                $('#modalA').modal('show');
+              if (mMRC_Score >= 3 && mMRC_Score <= 4 && CAT_Score > 30) {
+                $('#modalE').modal('show');
               } else if (mMRC_Score >= 2 && CAT_Score >= 10) {
                 $('#modalB').modal('show');
-              } else if (mMRC_Score >= 3 && mMRC_Score <= 4 && CAT_Score > 30) {
-                $('#modalE').modal('show');
+              } else if (mMRC_Score >= 0 && mMRC_Score <= 1 && CAT_Score < 10) {
+                $('#modalA').modal('show');
               } else {
                 $('#defaultModal').modal('show');
               }
+
 
               then(() => {
                 // เปลี่ยนเส้นทางไปยังหน้าใหม่หรือจัดการขั้นตอนถัดไป
                 window.location.href = `../selectForm.html?Id_P=${encodeURIComponent(storedId_P)}`;
               });
+              // ฟังก์ชันสำหรับการเปลี่ยนเส้นทางเมื่อกดปุ่ม "สำเร็จ"
+              function redirectToSelectForm() {
+                const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+                const Id_P = localStorage.getItem('userId_P');    // ดึงค่า Id_P จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+                const name = localStorage.getItem('userName');    // ดึงค่า name จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+                const surname = localStorage.getItem('userSurname');  // ดึงค่า surname จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+
+                // เปลี่ยนเส้นทางไปยัง URL ใหม่
+                window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+              }
+
+           
             }
+
           </script>
 
           <!-- SweetAlert2 JS -->
