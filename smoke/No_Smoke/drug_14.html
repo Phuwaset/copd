@@ -7,6 +7,7 @@
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
     <link rel="stylesheet" href="../../style.css">    
     <style>
+
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
             background-size: cover;
@@ -19,11 +20,13 @@
             position: relative;
             z-index: 1;
         }
+
         .container-custom {
             padding: 0 15px;
             position: relative;
             z-index: 2;
         }
+
         .mask {
             position: absolute;
             top: 0;
@@ -33,14 +36,17 @@
             background-color: rgba(0, 0, 0, 0.4);
             z-index: 1;
         }
+
         .btn-outline-light {
             border-color: #ffffff;
             color: #ffffff;
         }
+
         .btn-outline-light:hover {
             background-color: #ffffff;
             color: #007bff;
         }
+
     </style>
 </head>
 
@@ -51,20 +57,21 @@
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
-                <h2 class="mb-4">นํ้าหนัก ส่วนสูง ดัชนีมวลกาย</h2>
-                <div class="container">
-                    <div class="col"></div>
-                    <div class="col">
-                        <label for="">นํ้าหนัก</label><br><br>
-                        <input type="text" id="weight" class="form-control"><br>
-                        <label for="">ส่วนสูง</label><br><br>
-                        <input type="text" id="height" class="form-control"><br>
-                        <label for="">ดัชนีมวลกาย</label><br><br>
-                        <input type="text" id="bmi" class="form-control"><br>
-                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
-                    </div>
-                    <div class="col"></div>
+                <h2 class="mb-4">อุปกรณ์ที่ใช้ในการประกอบอาหาร</h2>
+              
+                <!-- Cooking equipment radio options -->
+                <div>
+                    <input type="radio" id="electricStove" name="cookingEquipment" value="เตาไฟฟ้า">
+                    <label for="electricStove">เตาไฟฟ้า</label><br>
+
+                    <input type="radio" id="gasStove" name="cookingEquipment" value="เตาแก๊ส">
+                    <label for="gasStove">เตาแก๊ส</label><br>
+
+                    <input type="radio" id="woodCoal" name="cookingEquipment" value="ฟืน/ถ่าน">
+                    <label for="woodCoal">ฟืน/ถ่าน</label><br>
                 </div>
+
+                <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
             </div>
         </div>
         <!-- Background image -->
@@ -73,36 +80,48 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Get current URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
+            // Function to handle button click
+            function handleClick() {
+                // Get current URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
 
-            // Update object with the parameters from URL
-            let drugData = {};
-            urlParams.forEach((value, key) => {
-                drugData[key] = value;
-            });
+                // Update object with the parameters from URL
+                let drugData = {};
+                urlParams.forEach((value, key) => {
+                    drugData[key] = value;
+                });
 
-            // Handle the 'next' button click
-            document.getElementById('nextBtn').addEventListener('click', function () {
-                // Get new values from input fields
-                drugData.weight = document.getElementById('weight').value;
-                drugData.height = document.getElementById('height').value;
-                drugData.bmi = document.getElementById('bmi').value;
+                // Get the selected cooking equipment
+                const cookingEquipment = document.querySelector('input[name="cookingEquipment"]:checked');
+                if (cookingEquipment) {
+                    // Update drugData object
+                    drugData.cookingEquipment = cookingEquipment.value;
+                } else {
+                    // If no equipment is selected, use a default value
+                    drugData.cookingEquipment = "ไม่ระบุ";
+                }
 
                 // Create new URL parameters from updated object
                 const newParams = new URLSearchParams(drugData);
 
                 // Log the updated parameters to the console
                 console.log('Updated Parameters:', newParams.toString());
-                // console.log('drugData',drugData);
-                // Navigate to drug_7.html with updated parameters
-                window.location.href = `drug_7.html?${newParams.toString()}`;
+
+                // Navigate to the next page (e.g., drug_15.html) with updated parameters
+                window.location.href = `drug_15.html?${newParams.toString()}`;
+            }
+
+            // Add event listener for the next button
+            document.getElementById('nextBtn').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default action
+                handleClick();
             });
         });
     </script>
 </body>
 <!-- No getback-->
-<script src="../No_Smoke/notback.js"></script>
+<script src="../No_Smoke/notback.js"></script>      
 </html>

@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
     <link rel="stylesheet" href="../../style.css">    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
 
         #intro {
@@ -48,6 +47,10 @@
             color: #007bff;
         }
 
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -58,17 +61,21 @@
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
-                <h2 class="mb-4">นํ้าหนัดลดลง</h2>
+                <h2 class="mb-4">อาการเหนื่อย</h2>
+               
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                       <label for="">ระยะเวลาที่น้ำหนักลด</label><br>
-                       <input type="radio" name="weightLossDuration" value="1 เดือนที่ผ่านมา"> 1 เดือนที่ผ่านมา<br>
-                       <input type="radio" name="weightLossDuration" value="1-3 เดือนที่ผ่านมา"> 1-3 เดือนที่ผ่านมา<br><br>
+                       <label for="symptomsPresent">มี</label>
+                       <input type="radio" id="symptomsPresent" name="symptoms" value="มี">
+                       <label for="symptomsAbsent">ไม่มี</label>
+                       <input type="radio" id="symptomsAbsent" name="symptoms" value="ไม่มี"><br>
 
-                       <label for="">สาเหตุ</label><br>
-                       <textarea id="reason" rows="4" class="form-control"></textarea><br>
-
+                       <div id="textareaContainer" class="hidden">
+                           <label for="symptomsDetails">รายละเอียด</label>
+                           <textarea id="symptomsDetails" rows="4" class="form-control"></textarea>
+                       </div>
+                       
                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
                     <div class="col"></div>
@@ -83,44 +90,67 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Get current URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-
-            // Update object with the parameters from URL
-            let drugData = {};
-            urlParams.forEach((value, key) => {
-                drugData[key] = value;
-            });
+            // Function to handle radio button change
+            function handleRadioChange() {
+                const textareaContainer = document.getElementById('textareaContainer');
+                const symptomsPresent = document.getElementById('symptomsPresent').checked;
+                
+                if (symptomsPresent) {
+                    textareaContainer.classList.remove('hidden');
+                } else {
+                    textareaContainer.classList.add('hidden');
+                }
+            }
 
             // Function to handle button click
             function handleClick() {
-                // Get selected radio button value
-                const duration = document.querySelector('input[name="weightLossDuration"]:checked');
-                const reason = document.getElementById('reason').value;
+                // Get current URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
 
-                if (duration) {
-                    drugData.weightLossDuration = duration.value;
+                // Update object with the parameters from URL
+                let drugData = {};
+                urlParams.forEach((value, key) => {
+                    drugData[key] = value;
+                });
+
+                // Get the selected radio button value
+                const symptomsPresent = document.getElementById('symptomsPresent').checked;
+                const symptomsAbsent = document.getElementById('symptomsAbsent').checked;
+                const symptomsDetails = document.getElementById('symptomsDetails').value;
+
+                // Update drugData object
+                if (symptomsPresent) {
+                    drugData.symptoms = 'มี';
+                    drugData.symptomsDetails = symptomsDetails;
+                } else if (symptomsAbsent) {
+                    drugData.symptoms = 'ไม่มี';
                 }
-                drugData.reason = reason;
 
                 // Create new URL parameters from updated object
                 const newParams = new URLSearchParams(drugData);
 
                 // Log the updated parameters to the console
                 console.log('Updated Parameters:', newParams.toString());
-                // console.log('drugData',drugData);    
-                // Navigate to drug_10.html with updated parameters 
-                window.location.href = `drug_10.html?${newParams.toString()}`;
+                // console.log('drugData',drugData);
+                // Navigate to drug_12.html with updated parameters
+                window.location.href = `drug_12.html?${newParams.toString()}`;
             }
+
+            // Add event listener for the radio buttons
+            document.getElementById('symptomsPresent').addEventListener('change', handleRadioChange);
+            document.getElementById('symptomsAbsent').addEventListener('change', handleRadioChange);
 
             // Add event listener for the next button
             document.getElementById('nextBtn').addEventListener('click', function (e) {
                 e.preventDefault(); // Prevent default action
                 handleClick();
             });
+
+            // Initial setup
+            handleRadioChange(); // Ensure correct textarea visibility on load
         });
     </script>
 </body>
 <!-- No getback-->
-<script src="../No_Smoke/notback.js"></script>
+<script src="../No_Smoke/notback.js"></script>      
 </html>

@@ -131,7 +131,7 @@
                                 alt="Logo Data Image" width="47%" height="50%">
                         </div>
                         <hr class="">
-                        <a href="./smoke/smokeIndex.html" class="btn btn-outline-info">กรอกข้อมูล</a>
+                        <a href="./smoke/smokeIndex.html" class="btn btn-outline-info" id="submitLink1" onclick="goToSmoke()">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
@@ -211,10 +211,11 @@
 
             // สร้าง URL พร้อมพารามิเตอร์
             const url = `./testAndQmMRC/1Qmmrc.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
-
+            const url_smoke = `./smoke/smokeIndex.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            
             // เปลี่ยน href ของลิงก์ให้ไปยัง URL ที่สร้างขึ้น
             document.getElementById('submitLink').setAttribute('href', url);
-
+            document.getElementById('submitLink1').setAttribute('href', url_smoke);
 
             // // ตรวจสอบว่ามี session ใน localStorage หรือไม่ หากไม่มีให้บังคับกลับไปหน้า login
             if (!storedId_P && !Id_P) {

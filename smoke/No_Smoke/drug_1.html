@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
-    <link rel="stylesheet" href="../../style.css">    
+    <link rel="stylesheet" href="../../style.css">
     <style>
-
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
             background-size: cover;
@@ -46,10 +44,8 @@
             background-color: #ffffff;
             color: #007bff;
         }
-
     </style>
 </head>
-
 <body>
     <!--Main Navigation-->
     <header>
@@ -57,20 +53,22 @@
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
-                <h2 class="mb-4">ยาที่ใช้สูดพ่น</h2>
+                <h2 class="mb-4">สูบบุหรี่</h2>
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                        <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#"
-                            role="button">
-                            มี
-                            <img src="../../image/ya.png" width="40px" alt="">
-                        </a>
-                        <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="./drug_2.html"
-                            role="button">
-                            ไม่มี
-                            <img src="../../image/xx.jpg" width="30px" style="border-radius: 100px;" alt="">
-                        </a>
+                        <label for="startAge">เริ่มสูบตั้งแต่อายุเท่าไหร่</label><br><br>
+                        <input type="text" id="startAge" class="form-control"><br>
+                        <label for="cigarettesPerDay">สูบกี่มวนต่อวัน</label><br><br>
+                        <input type="text" id="cigarettesPerDay" class="form-control"><br>
+                        <label for="wantToQuit">ท่านมีความคิดที่อยากจะเลิกสูบบุหรี่หรือไม่</label><br><br>
+                        <label><input type="radio" name="quit" value="yes" id="yesRadio"> ใช่</label>
+                        <label><input type="radio" name="quit" value="no" id="noRadio"> ไม่</label><br><br>
+                        <div id="quitMethodContainer" style="display: none;">
+                            <label for="quitMethod">ท่านมีวิธีการคิดเลิกสูบบุหรี่อย่างไร</label><br><br>
+                            <input type="text" id="quitMethod" class="form-control"><br>
+                        </div>
+                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
                     <div class="col"></div>
                 </div>
@@ -81,8 +79,77 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // แสดงหรือซ่อนอินพุตวิธีเลิกบุหรี่ตามการเลือกของผู้ใช้
+            document.getElementById('yesRadio').addEventListener('change', function () {
+                document.getElementById('quitMethodContainer').style.display = 'block';
+            });
+            document.getElementById('noRadio').addEventListener('change', function () {
+                document.getElementById('quitMethodContainer').style.display = 'none';
+            });
+
+            // จัดการการส่งฟอร์ม
+            document.getElementById('nextBtn').addEventListener('click', function () {
+                // รับค่าจากฟอร์ม
+                const startAge = document.getElementById('startAge').value;
+                const cigarettesPerDay = document.getElementById('cigarettesPerDay').value;
+                const wantToQuit = document.querySelector('input[name="quit"]:checked').value;
+                const quitMethod = wantToQuit === 'yes' ? document.getElementById('quitMethod').value : null;
+
+                // แสดงข้อมูลในคอนโซล
+                console.log('Start Age:', startAge);
+                console.log('Cigarettes Per Day:', cigarettesPerDay);
+                console.log('Want to Quit:', wantToQuit);
+                console.log('Quit Method:', quitMethod);
+
+                // รับวัตถุ smoking ที่มีอยู่จาก localStorage
+                let smoking = JSON.parse(localStorage.getItem('smoking')) || {};
+
+                // อัปเดตวัตถุ smoking
+                smoking.startAge = startAge;
+                smoking.cigarettesPerDay = cigarettesPerDay;
+                smoking.wantToQuit = wantToQuit;
+                if (quitMethod) {
+                    smoking.quitMethod = quitMethod;
+                }
+
+                // แสดงวัตถุ smoking ที่อัปเดตในคอนโซล
+                console.log('Updated Smoking Object:', smoking);
+
+                // บันทึกวัตถุ smoking ที่อัปเดตกลับไปที่ localStorage
+                localStorage.setItem('smoking', JSON.stringify(smoking));
+
+                // ดึงข้อมูลจาก URL parameters
+                const Id_P = urlParams.get('Id_P');
+                const name = urlParams.get('name');
+                const surname = urlParams.get('surname');
+                
+                // ตรวจสอบว่ามีข้อมูลใน localStorage หรือไม่
+                if (!Id_P || !name || !surname) {
+                    console.error('Required data is missing from localStorage');
+                    alert('ข้อมูลที่ต้องการไม่ครบถ้วน กรุณาตรวจสอบ localStorage');
+                    return; // หยุดการเปลี่ยนเส้นทาง
+                }
+
+                // เข้ารหัสข้อมูล smoking เป็น JSON string
+                const smokingData = encodeURIComponent(JSON.stringify(smoking));
+
+                // สร้าง URL สำหรับการเปลี่ยนเส้นทาง
+                const drug2URL = `drug_2.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&smoking=${smokingData}`;
+
+                // เปลี่ยนเส้นทางไปยังหน้าเว็บถัดไป
+                window.location.href = drug2URL;
+            });
+        });
+    </script>
+
+    <!-- No getback-->
+    <script src="../No_Smoke/notback.js"></script>
 </body>
-<!-- No getback-->
-<script src="../No_Smoke/notback.js"></script>
 </html>

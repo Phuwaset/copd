@@ -57,26 +57,13 @@
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
-                <h2 class="mb-4">การประกอบอาหาร</h2>
+                <h2 class="mb-4">นํ้าหนักเพิ่มขึ้น</h2>
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                        <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#"
-                            role="button">
-                            เตาไฟฟ้า
-                            <img src="../../image/ya.png" width="40px" alt="">
-                        </a>
-                        <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#"
-                            role="button">
-                            เตาแก๊ส
-                            <img src="../../image/xx.jpg" width="30px" style="border-radius: 100px;" alt="">
-                        </a>
-                        <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="./drug_10.html"
-                            role="button">
-                            ฟืน
-                            <img src="../../image/xx.jpg" width="30px" style="border-radius: 100px;" alt="">
-                        </a>
-                       
+                        <label for="reason">สาเหตุ</label>
+                        <textarea id="reason" rows="4" class="form-control"></textarea><br>
+                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
                     <div class="col"></div>
                 </div>
@@ -88,6 +75,40 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get current URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Update object with the parameters from URL
+            let drugData = {};
+            urlParams.forEach((value, key) => {
+                drugData[key] = value;
+            });
+
+            // Function to handle button click
+            function handleClick() {
+                // Get reason value
+                const reason = document.getElementById('reason').value;
+                drugData.reason = reason;
+
+                // Create new URL parameters from updated object
+                const newParams = new URLSearchParams(drugData);
+
+                // Log the updated parameters to the console
+                console.log('Updated Parameters:', newParams.toString());
+                // console.log('drugData',drugData);
+                // Navigate to drug_10.html with updated parameters
+                window.location.href = `drug_10.html?${newParams.toString()}`;
+            }
+
+            // Add event listener for the next button
+            document.getElementById('nextBtn').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default action
+                handleClick();
+            });
+        });
+    </script>
 </body>
 <!-- No getback-->
 <script src="../No_Smoke/notback.js"></script>
