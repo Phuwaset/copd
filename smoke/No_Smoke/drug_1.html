@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,10 +47,11 @@
         }
     </style>
 </head>
+
 <body>
-    <!--Main Navigation-->
+    <!-- การนำทางหลัก -->
     <header>
-        <!-- Background image -->
+        <!-- รูปภาพพื้นหลัง -->
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
@@ -74,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <!-- Background image -->
+        <!-- รูปภาพพื้นหลัง -->
     </header>
 
     <!-- Bootstrap JS -->
@@ -85,7 +87,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
-            
+
             // แสดงหรือซ่อนอินพุตวิธีเลิกบุหรี่ตามการเลือกของผู้ใช้
             document.getElementById('yesRadio').addEventListener('change', function () {
                 document.getElementById('quitMethodContainer').style.display = 'block';
@@ -97,16 +99,16 @@
             // จัดการการส่งฟอร์ม
             document.getElementById('nextBtn').addEventListener('click', function () {
                 // รับค่าจากฟอร์ม
-                const startAge = document.getElementById('startAge').value;
-                const cigarettesPerDay = document.getElementById('cigarettesPerDay').value;
-                const wantToQuit = document.querySelector('input[name="quit"]:checked').value;
-                const quitMethod = wantToQuit === 'yes' ? document.getElementById('quitMethod').value : null;
+                const startAge = document.getElementById('startAge').value || 'ไม่ระบุ';
+                const cigarettesPerDay = document.getElementById('cigarettesPerDay').value || 'ไม่ระบุ';
+                const wantToQuit = document.querySelector('input[name="quit"]:checked') ? document.querySelector('input[name="quit"]:checked').value : 'ไม่ระบุ';
+                const quitMethod = wantToQuit === 'yes' ? document.getElementById('quitMethod').value || 'ไม่ระบุ' : 'ไม่ระบุ';
 
                 // แสดงข้อมูลในคอนโซล
-                console.log('Start Age:', startAge);
-                console.log('Cigarettes Per Day:', cigarettesPerDay);
-                console.log('Want to Quit:', wantToQuit);
-                console.log('Quit Method:', quitMethod);
+                console.log('เริ่มสูบตั้งแต่อายุ:', startAge);
+                console.log('สูบกี่มวนต่อวัน:', cigarettesPerDay);
+                console.log('ต้องการเลิกสูบหรือไม่:', wantToQuit);
+                console.log('วิธีเลิกสูบ:', quitMethod);
 
                 // รับวัตถุ smoking ที่มีอยู่จาก localStorage
                 let smoking = JSON.parse(localStorage.getItem('smoking')) || {};
@@ -115,24 +117,22 @@
                 smoking.startAge = startAge;
                 smoking.cigarettesPerDay = cigarettesPerDay;
                 smoking.wantToQuit = wantToQuit;
-                if (quitMethod) {
-                    smoking.quitMethod = quitMethod;
-                }
+                smoking.quitMethod = quitMethod;
 
                 // แสดงวัตถุ smoking ที่อัปเดตในคอนโซล
-                console.log('Updated Smoking Object:', smoking);
+                console.log('วัตถุการสูบที่อัปเดต:', smoking);
 
                 // บันทึกวัตถุ smoking ที่อัปเดตกลับไปที่ localStorage
                 localStorage.setItem('smoking', JSON.stringify(smoking));
 
-                // ดึงข้อมูลจาก URL parameters
+                // ดึงข้อมูลจากพารามิเตอร์ URL
                 const Id_P = urlParams.get('Id_P');
                 const name = urlParams.get('name');
                 const surname = urlParams.get('surname');
-                
+
                 // ตรวจสอบว่ามีข้อมูลใน localStorage หรือไม่
                 if (!Id_P || !name || !surname) {
-                    console.error('Required data is missing from localStorage');
+                    console.error('ข้อมูลที่ต้องการหายไปจาก localStorage');
                     alert('ข้อมูลที่ต้องการไม่ครบถ้วน กรุณาตรวจสอบ localStorage');
                     return; // หยุดการเปลี่ยนเส้นทาง
                 }
@@ -147,9 +147,11 @@
                 window.location.href = drug2URL;
             });
         });
+
     </script>
 
-    <!-- No getback-->
+    <!-- ไม่ให้กลับ -->
     <script src="../No_Smoke/notback.js"></script>
 </body>
+
 </html>

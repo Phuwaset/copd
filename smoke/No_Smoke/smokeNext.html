@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page Title</title>
+    <title>หน้าของฉัน</title>
     <link rel="icon" type="image/png" href="../../image/ya.png">
     <link rel="stylesheet" href="../../style.css">
 </head>
 
 <body>
-    <!--Main Navigation-->
+    <!-- การนำทางหลัก -->
     <header>
         <style>
             #intro {
@@ -41,7 +41,7 @@
             }
         </style>
 
-        <!-- Background image -->
+        <!-- รูปภาพพื้นหลัง -->
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
@@ -50,12 +50,12 @@
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                        <a id="noSmokeLink" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
-                            href="smokeNext.html" role="button">
+                        <a id="smokeLink" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
+                            href="" role="button">
                             สูบ
                             <img src="../../image/smock.png" width="30px" style="border-radius: 100px;" alt="">
                         </a>
-                        <a id="" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
+                        <a id="noSmokeLink" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
                             href="../smoke/No_Smoke/drug.html" role="button">
                             ไม่สูบ
                             <img src="../../image/xx.jpg" width="30px" style="border-radius: 100px;" alt="">
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <!-- Background image -->
+        <!-- รูปภาพพื้นหลัง -->
     </header>
 
     <!-- Bootstrap JS -->
@@ -73,24 +73,26 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <!-- Custom JS for adding parameters and handling object creation -->
+    <!-- JavaScript ที่กำหนดเองสำหรับการเพิ่มพารามิเตอร์และการจัดการการสร้างอ็อบเจ็กต์ -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Extract URL parameters
+            // ดึงพารามิเตอร์จาก URL
             const urlParams = new URLSearchParams(window.location.search);
             const Id_P = urlParams.get('Id_P');
             const name = urlParams.get('name');
             const surname = urlParams.get('surname');
 
-            // Create URLs with parameters
+            // สร้าง URL ด้วยพารามิเตอร์
             const noSmokeURL = `../No_Smoke/drug_1.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
 
-            // Update the href attributes
+            // อัปเดต href ของลิงก์ "ไม่สูบ"
             document.getElementById('noSmokeLink').setAttribute('href', noSmokeURL);
+            document.getElementById('smokeLink').setAttribute('href', noSmokeURL);
 
-            // Add click event listener for "สูบ"
+
+            // เพิ่มตัวจัดการคลิกสำหรับ "สูบ"
             document.getElementById('smokeLink').addEventListener('click', function (event) {
-                // Create the smoking object
+                // สร้างอ็อบเจ็กต์การสูบ
                 const smoking = {
                     status: 'smoke',
                     Id_P: Id_P,
@@ -98,18 +100,18 @@
                     surname: surname
                 };
 
-                // Store the smoking object in localStorage
+                // เก็บอ็อบเจ็กต์การสูบใน localStorage
                 localStorage.setItem('smoking', JSON.stringify(smoking));
 
-                // Proceed to the next page
+                // ไปยังหน้าถัดไป
                 const smokeURL = `smokeNext.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
-                event.preventDefault(); // Prevent the default link action
-                window.location.href = smokeURL; // Redirect to the next page
+                event.preventDefault(); // ป้องกันการดำเนินการลิงก์ตามปกติ
+                window.location.href = smokeURL; // เปลี่ยนเส้นทางไปยังหน้าถัดไป
             });
         });
     </script>
 
-    <!-- No getback-->
+    <!-- ไม่ให้กลับ-->
     <script src="notback.js"></script>
 </body>
 

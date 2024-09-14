@@ -59,7 +59,8 @@
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                        <a id="have_drug" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#" role="button">
+                        <a id="have_drug" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#"
+                            role="button">
                             มี
                             <img src="../../image/ya.png" width="40px" alt="">
                         </a>
@@ -83,10 +84,13 @@
         // Add event listener for DOMContentLoaded to ensure the script runs after the DOM is loaded
         document.addEventListener('DOMContentLoaded', function () {
             // Extract the current URL parameters
-            const urlParams = window.location.search;
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Log URL parameters to console
+            console.log('URL Parameters:', Object.fromEntries(urlParams.entries()));
 
             // Update the href of the "มี" button to include the URL parameters
-            document.getElementById('have_drug').href = `drug_3.html${urlParams}`;
+            document.getElementById('have_drug').href = `drug_3.html${window.location.search}`;
         });
     </script>
 </body>

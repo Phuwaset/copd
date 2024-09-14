@@ -140,14 +140,14 @@
                 <div class="card">
                     <div class="card-body">
                         <hr>
-                        <h5 class="card-title"><b style="color: rgb(0, 177, 177);">แบบประเมินการจัดการตนเอง</b></h5>
+                        <h5 class="card-title"><b style="color: rgb(0, 177, 177);">คำแนะนำ</b></h5>
                         <hr>
                         <div class="container">
                             <img src="./image/evaluation.jpg" class="img-fluid" style="border-radius: 10px;"
                                 alt="Evaluation Image" width="45%" height="50%">
                         </div>
                         <hr>
-                        <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a>
+                        <a href="./recommand/index_recommand.html" id="submitLink2" class="btn btn-outline-info">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
@@ -156,10 +156,10 @@
                 <div class="card">
                     <div class="card-body">
                         <hr>
-                        <h5 class="card-title"><b style="color: rgb(0, 177, 177);">QR Code</b></h5>
+                        <h5 class="card-title"><b style="color: rgb(0, 177, 177);">การประเมินผล</b></h5>
                         <hr>
                         <div class="container">
-                            <img src="./image/copd.jpg" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
+                            <img src="./image/ประเมินผล.png" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
                         </div>
                         <hr>
                         <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a>
@@ -212,10 +212,11 @@
             // สร้าง URL พร้อมพารามิเตอร์
             const url = `./testAndQmMRC/1Qmmrc.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             const url_smoke = `./smoke/smokeIndex.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
-            
+            const url_recomand = `./recommand/index_recommand.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             // เปลี่ยน href ของลิงก์ให้ไปยัง URL ที่สร้างขึ้น
             document.getElementById('submitLink').setAttribute('href', url);
             document.getElementById('submitLink1').setAttribute('href', url_smoke);
+            document.getElementById('submitLink2').setAttribute('href', url_recomand);
 
             // // ตรวจสอบว่ามี session ใน localStorage หรือไม่ หากไม่มีให้บังคับกลับไปหน้า login
             if (!storedId_P && !Id_P) {

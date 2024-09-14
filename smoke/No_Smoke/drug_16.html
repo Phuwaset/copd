@@ -103,7 +103,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -137,6 +138,33 @@
                 const cookingEquipment = urlParams.get('cookingEquipment') || 'ไม่ระบุ';
                 const exerciseType = urlParams.get('exerciseType') || 'ไม่ระบุ';
                 const exerciseDuration = urlParams.get('exerciseDuration') || 'ไม่ระบุ';
+                // Log the parameters for debugging
+                console.log('URL Parameters:', {
+                    Id_P,
+                    name,
+                    surname,
+                    startAge: urlParams.get('startAge') || 'ไม่ระบุ',
+                    cigarettesPerDay: urlParams.get('cigarettesPerDay') || 'ไม่ระบุ',
+                    wantToQuit: urlParams.get('wantToQuit') || 'ไม่ระบุ',
+                    quitMethod: urlParams.get('quitMethod') || 'ไม่ระบุ',
+                    selectedDrug: urlParams.get('selectedDrug') || 'ไม่ระบุ',
+                    meal: urlParams.get('meal') || 'ไม่ระบุ',
+                    weight: urlParams.get('weight') || 'ไม่ระบุ',
+                    height: urlParams.get('height') || 'ไม่ระบุ',
+                    bmi: urlParams.get('bmi') || 'ไม่ระบุ',
+                    currentWeightChange: urlParams.get('currentWeightChange') || 'ไม่ระบุ',
+                    reason: urlParams.get('reason') || 'ไม่ระบุ',
+                    breathingPractice: urlParams.get('breathingPractice') || 'ไม่ระบุ',
+                    noBreathingPractice: urlParams.get('noBreathingPractice') || 'ไม่ระบุ',
+                    symptoms: urlParams.get('symptoms') || 'ไม่ระบุ',
+                    symptomsDetails: urlParams.get('symptomsDetails') || 'ไม่ระบุ',
+                    coughSymptoms: urlParams.get('coughSymptoms') || 'ไม่ระบุ',
+                    coughSymptomsDetails: urlParams.get('coughSymptomsDetails') || 'ไม่ระบุ',
+                    pollutionDetails: urlParams.get('pollutionDetails') || 'ไม่ระบุ',
+                    cookingEquipment: urlParams.get('cookingEquipment') || 'ไม่ระบุ',
+                    exerciseType: urlParams.get('exerciseType') || 'ไม่ระบุ',
+                    exerciseDuration: urlParams.get('exerciseDuration') || 'ไม่ระบุ',
+                });
 
                 // Prepare report content
                 let reportContent = `
@@ -172,6 +200,7 @@
                 // Display report
                 document.getElementById('report').innerHTML = reportContent;
             }
+
 
             // Function to handle back button click
             function handleBackClick() {
