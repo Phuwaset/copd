@@ -306,8 +306,8 @@
                     - ความเสี่ยงต่อการกำเริบของโรค : น้อย
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">สำเร็จ</button>
+                  <!-- <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button> -->
                 </div>
               </div>
             </div>
@@ -330,8 +330,8 @@
                   </p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">สำเร็จ</button>
+                  <!-- <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button> -->
                 </div>
               </div>
             </div>
@@ -353,8 +353,8 @@
                   </p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">สำเร็จ</button>
+                  <!-- <button type="button" class="btn btn-primary" id="confirmBtn">สำเร็จ</button> -->
                 </div>
               </div>
             </div>
@@ -372,7 +372,7 @@
             function submitCAT1() {
               const storedId_P = localStorage.getItem('userId_P');
               const CAT1_Data = {};
-              document.getElementById('confirmBtn').onclick = redirectToSelectForm;
+
               // กำหนดคำถามและชื่อของตัวเลือกที่ใช้ใน radio inputs
               const questions = [
                 { text: 'ข้าพเจ้าไม่เคยมีอาการไอ', name: 'question1' },
@@ -428,11 +428,9 @@
                 return score;
               }
 
-
               function calculateCATScore(CAT1_Data) {
                 return Object.values(CAT1_Data).reduce((sum, item) => sum + parseInt(item.value, 10), 0);
               }
-
 
               // คำนวณคะแนน
               const mMRC_Score = calculateMMRCCategoryScore(parsedData);
@@ -454,11 +452,11 @@
                 $('#defaultModal').modal('show');
               }
 
-
-              then(() => {
-                // เปลี่ยนเส้นทางไปยังหน้าใหม่หรือจัดการขั้นตอนถัดไป
-                window.location.href = `../selectForm.html?Id_P=${encodeURIComponent(storedId_P)}`;
+              // เมื่อ modal ปิด ให้ทำการเปลี่ยนเส้นทาง
+              $('#modalA, #modalB, #modalE, #defaultModal').on('hidden.bs.modal', function () {
+                redirectToSelectForm();
               });
+
               // ฟังก์ชันสำหรับการเปลี่ยนเส้นทางเมื่อกดปุ่ม "สำเร็จ"
               function redirectToSelectForm() {
                 const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
@@ -467,11 +465,10 @@
                 const surname = localStorage.getItem('userSurname');  // ดึงค่า surname จาก localStorage หรือแหล่งข้อมูลอื่นๆ
 
                 // เปลี่ยนเส้นทางไปยัง URL ใหม่
-                window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+                window.location.href = `../selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
               }
-
-           
             }
+
 
           </script>
 
