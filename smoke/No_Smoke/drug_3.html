@@ -82,15 +82,7 @@
         crossorigin="anonymous"></script>
 
     <script>
-        // // Add event listener for DOMContentLoaded to ensure the script runs after the DOM is loaded
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     // Extract the current URL parameters
-        //     const urlParams = window.location.search;
-
-        //     // Update the href of the "ยาพ่น" button to include the URL parameters
-        //     document.getElementById('have_drug').href = `drug_4.html${urlParams}`;
-
-        //     // Add event listener for DOMContentLoaded to ensure the script runs after the DOM is loaded
+        // Add event listener for DOMContentLoaded to ensure the script runs after the DOM is loaded
         document.addEventListener('DOMContentLoaded', function () {
             // Extract the current URL parameters
             const urlParams = new URLSearchParams(window.location.search);
@@ -98,10 +90,42 @@
             // Log URL parameters to console
             console.log('URL Parameters:', Object.fromEntries(urlParams.entries()));
 
-            // Update the href of the "มี" button to include the URL parameters
-            document.getElementById('have_drug').href = `drug_4.html${window.location.search}`;
+            // Function to update the existing object in localStorage
+            function updateDrugType(type) {
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
+
+                // Update the object with the new drug type
+                existingData.drugType = type;
+
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console
+                console.log('Updated localStorage data:', existingData);
+            }
+
+            // Add event listener for the "ยาทาน" button
+            document.querySelector('.btn-outline-light[href="#"]').addEventListener('click', function () {
+                // Update the existing object with 'ยาทาน'
+                updateDrugType('ยาทาน');
+
+                // Redirect to drug_4.html with URL parameters
+                window.location.href = `drug_41.html${window.location.search}`;
+            });
+
+            // Add event listener for the "ยาพ่น" button
+            document.getElementById('have_drug').addEventListener('click', function () {
+                // Update the existing object with 'ยาพ่น'
+                updateDrugType('ยาพ่น');
+
+                // Redirect to drug_4.html with URL parameters
+                window.location.href = `drug_4.html${window.location.search}`;
+            });
         });
     </script>
+
+
 </body>
 
 <script src="../No_Smoke/notback.js"></script>

@@ -7,7 +7,6 @@
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
     <link rel="stylesheet" href="../../style.css">    
     <style>
-
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
             background-size: cover;
@@ -50,10 +49,10 @@
         .hidden {
             display: none;
         }
-
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 <body>
     <!--Main Navigation-->
     <header>
@@ -95,61 +94,64 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Show/hide details based on exercise option
-            document.querySelectorAll('input[name="exercise"]').forEach(function (elem) {
-                elem.addEventListener('change', function () {
-                    if (document.getElementById('exerciseYes').checked) {
-                        document.getElementById('exerciseDetails').classList.remove('hidden');
-                        document.getElementById('noExerciseReason').classList.add('hidden');
-                    } else if (document.getElementById('exerciseNo').checked) {
-                        document.getElementById('exerciseDetails').classList.add('hidden');
-                        document.getElementById('noExerciseReason').classList.remove('hidden');
-                    }
-                });
-            });
+            // Retrieve existing data from localStorage
+            let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-            // Function to handle button click
-            function handleClick() {
-                // Get current URL parameters
-                const urlParams = new URLSearchParams(window.location.search);
+            // Function to handle exercise details visibility
+            function toggleExerciseDetails() {
+                const exerciseYes = document.getElementById('exerciseYes');
+                const exerciseDetails = document.getElementById('exerciseDetails');
+                const noExerciseReason = document.getElementById('noExerciseReason');
 
-                // Update object with the parameters from URL
-                let drugData = {};
-                urlParams.forEach((value, key) => {
-                    drugData[key] = value;
-                });
-
-                // Get selected exercise option
-                const exerciseOption = document.querySelector('input[name="exercise"]:checked');
-                if (exerciseOption) {
-                    if (exerciseOption.value === 'ออกกำลังกาย') {
-                        // If user exercises, get details
-                        drugData.exerciseType = document.getElementById('exerciseType').value;
-                        drugData.exerciseDuration = document.getElementById('exerciseDuration').value;
-                    } else {
-                        // If user does not exercise, get reason
-                        drugData.exerciseReason = document.getElementById('exerciseReason').value;
-                    }
+                if (exerciseYes.checked) {
+                    exerciseDetails.classList.remove('hidden');
+                    noExerciseReason.classList.add('hidden');
+                } else {
+                    exerciseDetails.classList.add('hidden');
+                    noExerciseReason.classList.remove('hidden');
                 }
-
-                // Create new URL parameters from updated object
-                const newParams = new URLSearchParams(drugData);
-
-                // Log the updated parameters to the console
-                console.log('Updated Parameters:', newParams.toString());
-
-                // Navigate to the next page (e.g., drug_16.html) with updated parameters
-                window.location.href = `drug_16.html?${newParams.toString()}`;
             }
 
-            // Add event listener for the next button
+            // Initialize page with existing data
+            document.getElementById('exerciseYes').checked = existingData.exercise === 'ออกกำลังกาย';
+            document.getElementById('exerciseNo').checked = existingData.exercise === 'ไม่ออกกำลังกาย';
+            document.getElementById('exerciseType').value = existingData.exerciseType || '';
+            document.getElementById('exerciseDuration').value = existingData.exerciseDuration || '';
+            document.getElementById('exerciseReason').value = existingData.exerciseReason || '';
+
+            // Toggle exercise details based on existing data
+            toggleExerciseDetails();
+
+            // Add event listener for radio button changes
+            document.querySelectorAll('input[name="exercise"]').forEach(input => {
+                input.addEventListener('change', toggleExerciseDetails);
+            });
+
+            // Handle button click
             document.getElementById('nextBtn').addEventListener('click', function (e) {
                 e.preventDefault(); // Prevent default action
-                handleClick();
+
+                // Update existing data object
+                existingData.exercise = document.querySelector('input[name="exercise"]:checked')?.value || '';
+                existingData.exerciseType = document.getElementById('exerciseType').value || '';
+                existingData.exerciseDuration = document.getElementById('exerciseDuration').value || '';
+                existingData.exerciseReason = document.getElementById('exerciseReason').value || '';
+
+                // Save updated data to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console for debugging
+                console.log('Updated localStorage data:', existingData);
+
+                // Convert data to query string
+                const queryString = new URLSearchParams(existingData).toString();
+
+                // Navigate to the next page (e.g., drug_16.html) with updated parameters
+                window.location.href = `drug_16.html?${queryString}`;
             });
         });
     </script>
-
+    
     <!-- No getback-->
     <script src="../No_Smoke/notback.js"></script>
 </body>

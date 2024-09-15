@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
-    <link rel="stylesheet" href="../../style.css">    
+    <link rel="stylesheet" href="../../style.css">
     <style>
-
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
             background-size: cover;
@@ -50,10 +48,8 @@
         .hidden {
             display: none;
         }
-
     </style>
 </head>
-
 <body>
     <!--Main Navigation-->
     <header>
@@ -61,22 +57,22 @@
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
-                <h2 class="mb-4">อาการเหนื่อย</h2>
-               
+                <h2 class="mb-4">ยาทานชนิดอะไร</h2>
+
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                       <label for="symptomsPresent">มี</label>
-                       <input type="radio" id="symptomsPresent" name="symptoms" value="มี">
-                       <label for="symptomsAbsent">ไม่มี</label>
-                       <input type="radio" id="symptomsAbsent" name="symptoms" value="ไม่มี"><br>
+                        <label for="symptomsPresent">มี</label>
+                        <input type="radio" id="symptomsPresent" name="symptoms" value="มี">
+                        <label for="symptomsAbsent">ไม่มี</label>
+                        <input type="radio" id="symptomsAbsent" name="symptoms" value="ไม่มี"><br>
 
-                       <div id="textareaContainer" class="hidden">
-                           <label for="symptomsDetails">รายละเอียด</label>
-                           <textarea id="symptomsDetails" rows="4" class="form-control"></textarea>
-                       </div>
-                       
-                       <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
+                        <div id="textareaContainer" class="hidden">
+                            <label for="symptomsDetails">รายละเอียดของยาที่ทานอยู่</label>
+                            <textarea id="symptomsDetails" rows="4" class="form-control"></textarea>
+                        </div>
+
+                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
                     <div class="col"></div>
                 </div>
@@ -87,14 +83,15 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Function to handle radio button change
             function handleRadioChange() {
                 const textareaContainer = document.getElementById('textareaContainer');
                 const symptomsPresent = document.getElementById('symptomsPresent').checked;
-                
+
                 if (symptomsPresent) {
                     textareaContainer.classList.remove('hidden');
                 } else {
@@ -102,32 +99,40 @@
                 }
             }
 
-            // Function to handle the Next button click
+            // Function to handle button click
             function handleClick() {
-                // Retrieve the user's selection
+                // Get current URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                // Log URL parameters to console
+                console.log('URL Parameters:', Object.fromEntries(urlParams.entries()));
+
+                // Get the selected radio value
                 const symptoms = document.querySelector('input[name="symptoms"]:checked').value;
-                const symptomsDetails = document.getElementById('symptomsDetails').value;
+                let symptomsDetails = '';
+
+                // Get the details if "มี" is selected
+                if (symptoms === 'มี') {
+                    symptomsDetails = document.getElementById('symptomsDetails').value;
+                }
 
                 // Retrieve the existing object from localStorage
                 let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-                // Update the object with the new symptoms data
-                existingData.symptoms = {
-                    presence: symptoms,
-                    details: symptomsDetails || '' // Include details only if the user selected "มี"
+                // Update the object with the new drug information
+                existingData.drug_options = {
+                    type: 'ยาทาน',
+                    details: symptoms,
+                    description: symptomsDetails
                 };
 
                 // Save the updated object back to localStorage
                 localStorage.setItem('smoking', JSON.stringify(existingData));
 
-                // Log updated data to console for debugging
+                // Log updated data to console
                 console.log('Updated localStorage data:', existingData);
 
-                // Get current URL parameters
-                const urlParams = window.location.search;
-
-                // Redirect to the next page with updated parameters
-                window.location.href = `drug_12.html${urlParams}`;
+                // Redirect to drug_5.html with URL parameters
+                window.location.href = `drug_5.html?${new URLSearchParams(urlParams).toString()}`;
             }
 
             // Add event listener for the radio buttons
@@ -146,5 +151,5 @@
     </script>
 </body>
 <!-- No getback-->
-<script src="../No_Smoke/notback.js"></script>      
+<script src="../No_Smoke/notback.js"></script>
 </html>

@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>โรคปอดอุดกั้นเรื้อรัง</title>
+    <title>ข้อมูลสุขภาพ</title>
     <link rel="stylesheet" href="../../style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
         #intro {
-            background-image: linear-gradient(to right, rgba(163, 244, 252, 0.9), rgb(15, 199, 236));
+            background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -20,15 +25,18 @@
             justify-content: center;
             position: relative;
             z-index: 1;
-            color: #fff;
+            
         }
 
         .container-custom {
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
             position: relative;
             z-index: 2;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 20px;
         }
 
         .mask {
@@ -44,7 +52,6 @@
         .btn-outline-light {
             border-color: #ffffff;
             color: #ffffff;
-            margin-top: 20px;
         }
 
         .btn-outline-light:hover {
@@ -52,36 +59,27 @@
             color: #007bff;
         }
 
-        .report-section {
+        .data-container {
             text-align: left;
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
-        h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        p {
+        .data-container p {
+            margin: 10px 0;
+            font-size: 16px;
             line-height: 1.6;
         }
 
-        @media (max-width: 768px) {
-            #intro {
-                height: auto;
-                padding: 40px 0;
-            }
+        .data-container strong {
+            color: #007bff;
+        }
 
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            .container-custom {
-                padding: 15px;
-            }
+        header {
+            padding: 0;
+            margin: 0;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
@@ -90,12 +88,12 @@
         <!-- Background image -->
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
-            <div class="container container-custom text-center" data-mdb-theme="dark">
-                <h2 class="mb-4">รายงานข้อมูลที่บันทึก</h2>
-                <div class="report-section">
-                    <p id="report"></p>
+            <div class="container container-custom text-center text-dark" data-mdb-theme="light" style="margin-top: 100px;">
+                <h2 class="mb-4">ข้อมูลสุขภาพ</h2>
+                <div class="data-container" id="dataContainer">
+                    <!-- Data will be inserted here -->
                 </div>
-                <button id="backBtn" class="btn btn-outline-light btn-lg">กลับไปยังแบบฟอร์มเลือก</button>
+                <a href="#" id="backBtn" class="btn btn-outline-light btn-lg m-2" style="color: rgb(0, 0, 0);">กลับ</a>
             </div>
         </div>
         <!-- Background image -->
@@ -103,125 +101,73 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Function to display report data
-            function displayReport() {
-                // Get URL parameters
-                const urlParams = new URLSearchParams(window.location.search);
+            // ดึงข้อมูลจาก localStorage
+            const data = JSON.parse(localStorage.getItem('smoking')) || {};
+            const Id_P = encodeURIComponent(data.Id_P || '');
+            const name = encodeURIComponent(data.name || '');
+            const surname = encodeURIComponent(data.surname || '');
 
-                // Extract specific values
-                const Id_P = urlParams.get('Id_P') || 'ไม่ระบุ';
-                const name = urlParams.get('name') || 'ไม่ระบุ';
-                const surname = urlParams.get('surname') || 'ไม่ระบุ';
-                const startAge = urlParams.get('startAge') || 'ไม่ระบุ';
-                const cigarettesPerDay = urlParams.get('cigarettesPerDay') || 'ไม่ระบุ';
-                const wantToQuit = urlParams.get('wantToQuit') || 'ไม่ระบุ';
-                const quitMethod = urlParams.get('quitMethod') || 'ไม่ระบุ';
-                const selectedDrug = urlParams.get('selectedDrug') || 'ไม่ระบุ';
-                const meal = urlParams.get('meal') || 'ไม่ระบุ';
-                const weight = urlParams.get('weight') || 'ไม่ระบุ';
-                const height = urlParams.get('height') || 'ไม่ระบุ';
-                const bmi = urlParams.get('bmi') || 'ไม่ระบุ';
-                const currentWeightChange = urlParams.get('currentWeightChange') || 'ไม่ระบุ';
-                const reason = urlParams.get('reason') || 'ไม่ระบุ';
-                const breathingPractice = urlParams.get('breathingPractice') || 'ไม่ระบุ';
-                const noBreathingPractice = urlParams.get('noBreathingPractice') || 'ไม่ระบุ';
-                const symptoms = urlParams.get('symptoms') || 'ไม่ระบุ';
-                const symptomsDetails = urlParams.get('symptomsDetails') || 'ไม่ระบุ';
-                const coughSymptoms = urlParams.get('coughSymptoms') || 'ไม่ระบุ';
-                const coughSymptomsDetails = urlParams.get('coughSymptomsDetails') || 'ไม่ระบุ';
-                const pollutionDetails = urlParams.get('pollutionDetails') || 'ไม่ระบุ';
-                const cookingEquipment = urlParams.get('cookingEquipment') || 'ไม่ระบุ';
-                const exerciseType = urlParams.get('exerciseType') || 'ไม่ระบุ';
-                const exerciseDuration = urlParams.get('exerciseDuration') || 'ไม่ระบุ';
-                // Log the parameters for debugging
-                console.log('URL Parameters:', {
-                    Id_P,
-                    name,
-                    surname,
-                    startAge: urlParams.get('startAge') || 'ไม่ระบุ',
-                    cigarettesPerDay: urlParams.get('cigarettesPerDay') || 'ไม่ระบุ',
-                    wantToQuit: urlParams.get('wantToQuit') || 'ไม่ระบุ',
-                    quitMethod: urlParams.get('quitMethod') || 'ไม่ระบุ',
-                    selectedDrug: urlParams.get('selectedDrug') || 'ไม่ระบุ',
-                    meal: urlParams.get('meal') || 'ไม่ระบุ',
-                    weight: urlParams.get('weight') || 'ไม่ระบุ',
-                    height: urlParams.get('height') || 'ไม่ระบุ',
-                    bmi: urlParams.get('bmi') || 'ไม่ระบุ',
-                    currentWeightChange: urlParams.get('currentWeightChange') || 'ไม่ระบุ',
-                    reason: urlParams.get('reason') || 'ไม่ระบุ',
-                    breathingPractice: urlParams.get('breathingPractice') || 'ไม่ระบุ',
-                    noBreathingPractice: urlParams.get('noBreathingPractice') || 'ไม่ระบุ',
-                    symptoms: urlParams.get('symptoms') || 'ไม่ระบุ',
-                    symptomsDetails: urlParams.get('symptomsDetails') || 'ไม่ระบุ',
-                    coughSymptoms: urlParams.get('coughSymptoms') || 'ไม่ระบุ',
-                    coughSymptomsDetails: urlParams.get('coughSymptomsDetails') || 'ไม่ระบุ',
-                    pollutionDetails: urlParams.get('pollutionDetails') || 'ไม่ระบุ',
-                    cookingEquipment: urlParams.get('cookingEquipment') || 'ไม่ระบุ',
-                    exerciseType: urlParams.get('exerciseType') || 'ไม่ระบุ',
-                    exerciseDuration: urlParams.get('exerciseDuration') || 'ไม่ระบุ',
-                });
+            // ฟังก์ชันในการแปลและจัดรูปแบบข้อมูล
+            function formatData(key, value) {
+                const translations = {
+                    Id_P: "เลขบัตรประชาชน",
+                    bmi: "ดัชนีมวลกาย",
+                    breathing_practice: "ฝึกหายใจ",
+                    breathing_noPractice: "ไม่ฝึกหายใจ",
+                    cigarettesPerDay: "จำนวนบุหรี่ต่อวัน",
+                    cookingEquipment: "อุปกรณ์ในการประกอบอาหาร",
+                    cough_presence: "อาการไอ",
+                    cough_details: "รายละเอียดการไอ",
+                    drugType: "ประเภทยา",
+                    drug_options: "ตัวเลือกยา",
+                    exercise: "การออกกำลังกาย",
+                    exerciseDuration: "ระยะเวลาในการออกกำลังกาย",
+                    exerciseReason: "เหตุผลที่ไม่ออกกำลังกาย",
+                    exerciseType: "ประเภทการออกกำลังกาย",
+                    height: "ความสูง",
+                    mealFrequency: "ความถี่ในการรับประทานอาหาร",
+                    medicalCondition: "สภาพทางการแพทย์",
+                    name: "ชื่อ",
+                    pollution: "มลพิษ",
+                    quitMethod: "วิธีการเลิกบุหรี่",
+                    startAge: "อายุที่เริ่มสูบบุหรี่",
+                    status: "สถานะ",
+                    surname: "นามสกุล",
+                    symptoms_presence: "อาการ",
+                    symptoms_details: "รายละเอียดอาการ",
+                    wantToQuit: "ต้องการเลิกบุหรี่",
+                    weight: "น้ำหนัก",
+                    weightStatus: "สถานะน้ำหนัก"
+                };
 
-                // Prepare report content
-                let reportContent = `
-                    <strong>รายงานข้อมูลที่บันทึก</strong><br>
-                    บัตรประชาชน: ${Id_P}<br>
-                    ชื่อ: ${name}<br>
-                    นามสกุล: ${surname}<br><br>
-                    <strong>การสูบบุหรี่</strong><br>
-                    เริ่มสูบตั้งแต่อายุเท่าไหร่: ${startAge}<br>
-                    สูบกี่มวนต่อวัน: ${cigarettesPerDay}<br>
-                    ท่านมีความคิดที่อยากจะเลิกสูบบุหรี่หรือไม่: ${wantToQuit}<br>
-                    ท่านมีวิธีการคิดเลิกสูบบุหรี่อย่างไร: ${quitMethod}<br><br>
-                    <strong>ข้อมูลอื่นๆ</strong><br>
-                    ยาที่ใช้: ${selectedDrug}<br>
-                    มื้ออาหาร: ${meal}<br>
-                    น้ำหนัก: ${weight}<br>
-                    ส่วนสูง: ${height}<br>
-                    BMI: ${bmi}<br>
-                    การเปลี่ยนแปลงน้ำหนัก: ${currentWeightChange}<br>
-                    เหตุผล: ${reason}<br>
-                    การฝึกหายใจ: ${breathingPractice}<br>
-                    ไม่มีการฝึกหายใจ: ${noBreathingPractice}<br>
-                    อาการ: ${symptoms}<br>
-                    รายละเอียดอาการ: ${symptomsDetails}<br>
-                    อาการไอ: ${coughSymptoms}<br>
-                    รายละเอียดอาการไอ: ${coughSymptomsDetails}<br>
-                    รายละเอียดมลภาวะ: ${pollutionDetails}<br>
-                    อุปกรณ์ที่ใช้ในการประกอบอาหาร: ${cookingEquipment}<br>
-                    ประเภทการออกกำลังกาย: ${exerciseType}<br>
-                    ระยะเวลาในการออกกำลังกาย: ${exerciseDuration}<br>
-                `;
-
-                // Display report
-                document.getElementById('report').innerHTML = reportContent;
+                // ตรวจสอบว่าคีย์มีในแปลและจัดรูปแบบค่าตามนั้น
+                const translatedKey = translations[key] || key;
+                return `<p><strong>${translatedKey}:</strong> ${typeof value === 'object' ? JSON.stringify(value, null, 2).replace(/"([^"]+)":/g, '$1:').replace(/"/g, '') : value}</p>`;
             }
 
-
-            // Function to handle back button click
-            function handleBackClick() {
-                // Get URL parameters
-                const urlParams = new URLSearchParams(window.location.search);
-                const encodedId = urlParams.get('id');
-                const Id_P = urlParams.get('Id_P');
-                const name = urlParams.get('name');
-                const surname = urlParams.get('surname');
-
-                // Navigate back to selectForm.html with parameters
-                window.location.href = `../../selectForm.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            // สร้าง HTML สำหรับการแสดงข้อมูล
+            let html = '';
+            for (const [key, value] of Object.entries(data)) {
+                if (typeof value === 'object' && value !== null) {
+                    // จัดการกับวัตถุที่ซ้อนกัน
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        html += formatData(`${key}_${subKey}`, subValue);
+                    }
+                } else {
+                    html += formatData(key, value);
+                }
             }
 
-            // Display the report on page load
-            displayReport();
+            // แทรกข้อมูลลงในคอนเทนเนอร์
+            document.getElementById('dataContainer').innerHTML = html;
 
-            // Add event listener for the back button
-            document.getElementById('backBtn').addEventListener('click', function (e) {
-                e.preventDefault(); // Prevent default action
-                handleBackClick();
+            // ตั้งค่าปุ่มกลับ
+            document.getElementById('backBtn').addEventListener('click', function () {
+                window.location.href = `../../selectForm.html?Id_P=${Id_P}&name=${name}&surname=${surname}`;
             });
         });
     </script>
@@ -229,5 +175,4 @@
     <!-- No getback-->
     <script src="../No_Smoke/notback.js"></script>
 </body>
-
 </html>

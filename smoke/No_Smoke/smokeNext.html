@@ -51,12 +51,12 @@
                     <div class="col"></div>
                     <div class="col">
                         <a id="smokeLink" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
-                            href="" role="button">
+                            href="../smoke/No_Smoke/drug.html" role="button">
                             สูบ
                             <img src="../../image/smock.png" width="30px" style="border-radius: 100px;" alt="">
                         </a>
-                        <a id="noSmokeLink" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init
-                            href="../smoke/No_Smoke/drug.html" role="button">
+                        <a id="noSmokeLink" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href=""
+                            role="button">
                             ไม่สูบ
                             <img src="../../image/xx.jpg" width="30px" style="border-radius: 100px;" alt="">
                         </a>
@@ -82,16 +82,16 @@
             const name = urlParams.get('name');
             const surname = urlParams.get('surname');
 
-            // สร้าง URL ด้วยพารามิเตอร์
-            const noSmokeURL = `../No_Smoke/drug_1.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            // สร้าง URL ด้วยพารามิเตอร์สำหรับลิงก์ "สูบ"
+            const smokeURL = `../No_Smoke/drug_1.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            document.getElementById('smokeLink').setAttribute('href', smokeURL);
 
-            // อัปเดต href ของลิงก์ "ไม่สูบ"
+            // สร้าง URL ด้วยพารามิเตอร์สำหรับลิงก์ "ไม่สูบ"
+            const noSmokeURL = `../No_Smoke/drug_2.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             document.getElementById('noSmokeLink').setAttribute('href', noSmokeURL);
-            document.getElementById('smokeLink').setAttribute('href', noSmokeURL);
-
 
             // เพิ่มตัวจัดการคลิกสำหรับ "สูบ"
-            document.getElementById('smokeLink').addEventListener('click', function (event) {
+            document.getElementById('smokeLink').addEventListener('click', function () {
                 // สร้างอ็อบเจ็กต์การสูบ
                 const smoking = {
                     status: 'smoke',
@@ -102,13 +102,24 @@
 
                 // เก็บอ็อบเจ็กต์การสูบใน localStorage
                 localStorage.setItem('smoking', JSON.stringify(smoking));
+            });
 
-                // ไปยังหน้าถัดไป
-                const smokeURL = `smokeNext.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
-                event.preventDefault(); // ป้องกันการดำเนินการลิงก์ตามปกติ
-                window.location.href = smokeURL; // เปลี่ยนเส้นทางไปยังหน้าถัดไป
+            // เพิ่มตัวจัดการคลิกสำหรับ "ไม่สูบ"
+            document.getElementById('noSmokeLink').addEventListener('click', function () {
+                // สร้างอ็อบเจ็กต์การไม่สูบ
+                const nonSmoking = {
+                    status: 'no_smoke',
+                    Id_P: Id_P,
+                    name: name,
+                    surname: surname
+                };
+
+                // เก็บอ็อบเจ็กต์การไม่สูบใน localStorage
+                localStorage.setItem('smoking', JSON.stringify(nonSmoking));
             });
         });
+
+
     </script>
 
     <!-- ไม่ให้กลับ-->

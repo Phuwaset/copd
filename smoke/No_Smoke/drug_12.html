@@ -105,35 +105,30 @@
 
             // Function to handle button click
             function handleClick() {
-                // Get current URL parameters
-                const urlParams = new URLSearchParams(window.location.search);
-
-                // Update object with the parameters from URL
-                let drugData = {};
-                urlParams.forEach((value, key) => {
-                    drugData[key] = value;
-                });
-
-                // Get the selected radio button value
-                const symptomsPresent = document.getElementById('symptomsPresent').checked;
+                // Retrieve the user's selection
+                const symptoms = document.querySelector('input[name="symptoms"]:checked').value;
                 const symptomsDetails = document.getElementById('symptomsDetails').value;
 
-                // Update drugData object
-                if (symptomsPresent) {
-                    drugData.coughSymptoms = 'มี';
-                    drugData.coughSymptomsDetails = symptomsDetails;
-                } else {
-                    drugData.coughSymptoms = 'ไม่มี';
-                }
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-                // Create new URL parameters from updated object
-                const newParams = new URLSearchParams(drugData);
+                // Update the object with the new symptoms data
+                existingData.cough = {
+                    presence: symptoms,
+                    details: symptomsDetails || '' // Include details only if the user selected "มี"
+                };
 
-                // Log the updated parameters to the console
-                console.log('Updated Parameters:', newParams.toString());
-                // console.log('drugData',drugData);
-                // Navigate to drug_13.html with updated parameters
-                window.location.href = `drug_13.html?${newParams.toString()}`;
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console for debugging
+                console.log('Updated localStorage data:', existingData);
+
+                // Get current URL parameters
+                const urlParams = window.location.search;
+
+                // Redirect to the next page with updated parameters
+                window.location.href = `drug_13.html${urlParams}`;
             }
 
             // Add event listener for the radio buttons

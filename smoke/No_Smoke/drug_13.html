@@ -82,29 +82,26 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Function to handle button click
             function handleClick() {
+                // Retrieve the user's input
+                const pollutionDetails = document.getElementById('pollutionDetails').value;
+
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
+
+                // Update the object with the new pollution data
+                existingData.pollution = pollutionDetails || '';
+
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console for debugging
+                console.log('Updated localStorage data:', existingData);
+
                 // Get current URL parameters
                 const urlParams = new URLSearchParams(window.location.search);
 
-                // Update object with the parameters from URL
-                let drugData = {};
-                urlParams.forEach((value, key) => {
-                    drugData[key] = value;
-                });
-
-                // Get the value from the textarea
-                const pollutionDetails = document.getElementById('pollutionDetails').value;
-
-                // Update drugData object
-                drugData.pollutionDetails = pollutionDetails;
-
-                // Create new URL parameters from updated object
-                const newParams = new URLSearchParams(drugData);
-
-                // Log the updated parameters to the console
-                console.log('Updated Parameters:', newParams.toString());
-
-                // Navigate to drug_14.html with updated parameters
-                window.location.href = `drug_14.html?${newParams.toString()}`;
+                // Redirect to the next page with updated parameters
+                window.location.href = `drug_14.html?${urlParams.toString()}`;
             }
 
             // Add event listener for the next button

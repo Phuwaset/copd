@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,30 +74,35 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Get current URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
+            // Get elements by ID
+            const weightInput = document.getElementById('weight');
+            const heightInput = document.getElementById('height');
+            const bmiInput = document.getElementById('bmi');
+            const nextBtn = document.getElementById('nextBtn');
 
-            // Update object with the parameters from URL
-            let drugData = {};
-            urlParams.forEach((value, key) => {
-                drugData[key] = value;
-            });
+            // Event listener for the "ถัดไป" button
+            nextBtn.addEventListener('click', function () {
+                // Get values from inputs
+                const weight = weightInput.value;
+                const height = heightInput.value;
+                const bmi = bmiInput.value;
 
-            // Handle the 'next' button click
-            document.getElementById('nextBtn').addEventListener('click', function () {
-                // Get new values from input fields
-                drugData.weight = document.getElementById('weight').value;
-                drugData.height = document.getElementById('height').value;
-                drugData.bmi = document.getElementById('bmi').value;
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-                // Create new URL parameters from updated object
-                const newParams = new URLSearchParams(drugData);
+                // Update the object with the new values
+                existingData.weight = weight;
+                existingData.height = height;
+                existingData.bmi = bmi;
 
-                // Log the updated parameters to the console
-                console.log('Updated Parameters:', newParams.toString());
-                // console.log('drugData',drugData);
-                // Navigate to drug_7.html with updated parameters
-                window.location.href = `drug_7.html?${newParams.toString()}`;
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console for debugging
+                console.log('Updated localStorage data:', existingData);
+
+                // Redirect to the next page (e.g., drug_summary.html or another appropriate page)
+                window.location.href = `drug_7.html${window.location.search}`;
             });
         });
     </script>

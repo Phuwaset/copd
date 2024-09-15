@@ -7,7 +7,6 @@
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
     <link rel="stylesheet" href="../../style.css">    
     <style>
-
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
             background-size: cover;
@@ -46,7 +45,6 @@
             background-color: #ffffff;
             color: #007bff;
         }
-
     </style>
 </head>
 
@@ -57,7 +55,7 @@
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
-                <h2 class="mb-4">นํ้าหนักเพิ่มขึ้น</h2>
+                <h2 class="mb-4">น้ำหนักเพิ่มขึ้น</h2>
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
@@ -77,29 +75,30 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Get current URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-
-            // Update object with the parameters from URL
-            let drugData = {};
-            urlParams.forEach((value, key) => {
-                drugData[key] = value;
-            });
-
             // Function to handle button click
             function handleClick() {
-                // Get reason value
+                // Retrieve the reason for weight gain
                 const reason = document.getElementById('reason').value;
-                drugData.reason = reason;
 
-                // Create new URL parameters from updated object
-                const newParams = new URLSearchParams(drugData);
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-                // Log the updated parameters to the console
-                console.log('Updated Parameters:', newParams.toString());
-                // console.log('drugData',drugData);
-                // Navigate to drug_10.html with updated parameters
-                window.location.href = `drug_10.html?${newParams.toString()}`;
+                // Update the object with the new weight gain reason
+                existingData.weightGain = {
+                    reason: reason
+                };
+
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console for debugging
+                console.log('Updated localStorage data:', existingData);
+
+                // Get current URL parameters
+                const urlParams = window.location.search;
+
+                // Redirect to the next page with updated parameters
+                window.location.href = `drug_10.html${urlParams}`;
             }
 
             // Add event listener for the next button

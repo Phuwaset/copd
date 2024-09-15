@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,33 +82,40 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Get current URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
+            // Function to handle meal selection
+            function handleMealSelection(mealOption) {
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-            // Update object with the parameters from URL
-            let drugData = {};
-            urlParams.forEach((value, key) => {
-                drugData[key] = value;
+                // Update the object with the selected meal option
+                existingData.mealFrequency = mealOption;
+
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console
+                console.log('Updated localStorage data:', existingData);
+
+                // Redirect to the next page (e.g., meal_summary.html or another appropriate page)
+                // window.location.href = 'next_page.html'; // Replace with the actual next page
+                window.location.href = `drug_6.html${window.location.search}`;
+
+            }
+
+            // Add event listeners for meal option buttons
+            document.getElementById('meal-2-3').addEventListener('click', function (e) {
+                e.preventDefault();
+                handleMealSelection('2-3 มื้อ');
             });
 
-            // Add event listeners to buttons
-            document.querySelectorAll('.btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const selectedMeal = this.id.replace('meal-', '').replace('-', ' ');
+            document.getElementById('meal-4-5').addEventListener('click', function (e) {
+                e.preventDefault();
+                handleMealSelection('4-5 มื้อ');
+            });
 
-                    // Add meal information to drugData object
-                    drugData.meal = selectedMeal;
-
-                    // Create new URL parameters from updated object
-                    const newParams = new URLSearchParams(drugData);
-
-                    // Log the updated parameters to the console
-                    console.log('Updated Parameters:', newParams.toString());
-
-                    // console.log('drugData:', drugData);
-                    // Navigate to drug_6.html with updated parameters
-                    window.location.href = `drug_6.html?${newParams.toString()}`;
-                });
+            document.getElementById('meal-other').addEventListener('click', function (e) {
+                e.preventDefault();
+                handleMealSelection('อื่นๆ');
             });
         });
     </script>

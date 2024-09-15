@@ -85,33 +85,27 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Function to handle button click
             function handleClick() {
+                // Retrieve the selected cooking equipment
+                const selectedEquipment = document.querySelector('input[name="cookingEquipment"]:checked');
+                const cookingEquipment = selectedEquipment ? selectedEquipment.value : '';
+
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
+
+                // Update the object with the new cooking equipment data
+                existingData.cookingEquipment = cookingEquipment || '';
+
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console for debugging
+                console.log('Updated localStorage data:', existingData);
+
                 // Get current URL parameters
                 const urlParams = new URLSearchParams(window.location.search);
 
-                // Update object with the parameters from URL
-                let drugData = {};
-                urlParams.forEach((value, key) => {
-                    drugData[key] = value;
-                });
-
-                // Get the selected cooking equipment
-                const cookingEquipment = document.querySelector('input[name="cookingEquipment"]:checked');
-                if (cookingEquipment) {
-                    // Update drugData object
-                    drugData.cookingEquipment = cookingEquipment.value;
-                } else {
-                    // If no equipment is selected, use a default value
-                    drugData.cookingEquipment = "ไม่ระบุ";
-                }
-
-                // Create new URL parameters from updated object
-                const newParams = new URLSearchParams(drugData);
-
-                // Log the updated parameters to the console
-                console.log('Updated Parameters:', newParams.toString());
-
                 // Navigate to the next page (e.g., drug_15.html) with updated parameters
-                window.location.href = `drug_15.html?${newParams.toString()}`;
+                window.location.href = `drug_15.html?${urlParams.toString()}`;
             }
 
             // Add event listener for the next button

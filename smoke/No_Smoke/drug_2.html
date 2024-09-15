@@ -51,7 +51,6 @@
 <body>
     <!--Main Navigation-->
     <header>
-        <!-- Background image -->
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
@@ -64,7 +63,8 @@
                             มี
                             <img src="../../image/ya.png" width="40px" alt="">
                         </a>
-                        <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#" role="button">
+                        <a id="no_drug" class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="#"
+                            role="button">
                             ไม่มี
                             <img src="../../image/xx.jpg" width="30px" style="border-radius: 100px;" alt="">
                         </a>
@@ -75,7 +75,6 @@
         </div>
         <!-- Background image -->
     </header>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -83,18 +82,39 @@
     <script>
         // Add event listener for DOMContentLoaded to ensure the script runs after the DOM is loaded
         document.addEventListener('DOMContentLoaded', function () {
-            // Extract the current URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
+            // Function to update medical condition in localStorage
+            function updateMedicalCondition(condition) {
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
 
-            // Log URL parameters to console
-            console.log('URL Parameters:', Object.fromEntries(urlParams.entries()));
+                // Update the object with the new medical condition
+                existingData.medicalCondition = condition;
 
-            // Update the href of the "มี" button to include the URL parameters
-            document.getElementById('have_drug').href = `drug_3.html${window.location.search}`;
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log the updated object to console
+                console.log('Updated object:', existingData);
+
+                // Redirect to drug_3.html with URL parameters
+                window.location.href = `drug_3.html${window.location.search}`;
+            }
+
+            // Add event listener for the "มี" button
+            document.getElementById('have_drug').addEventListener('click', function () {
+                updateMedicalCondition('มี');
+            });
+
+            // Add event listener for the "ไม่มี" button
+            document.getElementById('no_drug').addEventListener('click', function () {
+                updateMedicalCondition('ไม่มี');
+            });
         });
     </script>
-</body>
 
-<script src="../No_Smoke/notback.js"></script>
+    <!-- No getback-->
+    <script src="../No_Smoke/notback.js"></script>
+
+</body>
 
 </html>
