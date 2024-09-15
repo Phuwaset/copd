@@ -162,30 +162,13 @@
                             <img src="./image/ประเมินผล.png" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
                         </div>
                         <hr>
-                        <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a>
+                        <a href="./check/check.html" id="submitLink3" class="btn btn-outline-info">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <br><br>
-        <div class="position-relative m-4">
-            <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0"
-                aria-valuemax="100" style="height: 1px;">
-                <div class="progress-bar"></div>
-            </div>
-            <button type="button"
-                class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-warning rounded-pill"
-                style="width: 2rem; height:2rem;"><a href="./index.html"
-                    style="color: white; text-decoration: none;">1</a></button>
-            <button type="button"
-                class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-danger rounded-pill"
-                style="width: 2rem; height:2rem;"><a href="./selectForm.html"
-                    style="color: white; text-decoration: none;">2</a></button>
-            <button type="button"
-                class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
-                style="width: 2rem; height:2rem;">3</button>
-        </div>
     </div>
 
     <br><br>
@@ -213,10 +196,13 @@
             const url = `./testAndQmMRC/1Qmmrc.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             const url_smoke = `./smoke/smokeIndex.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             const url_recomand = `./recommand/index_recommand.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            const url_check = `./check/check.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            
             // เปลี่ยน href ของลิงก์ให้ไปยัง URL ที่สร้างขึ้น
             document.getElementById('submitLink').setAttribute('href', url);
             document.getElementById('submitLink1').setAttribute('href', url_smoke);
             document.getElementById('submitLink2').setAttribute('href', url_recomand);
+            document.getElementById('submitLink3').setAttribute('href', url_check);
 
             // // ตรวจสอบว่ามี session ใน localStorage หรือไม่ หากไม่มีให้บังคับกลับไปหน้า login
             if (!storedId_P && !Id_P) {

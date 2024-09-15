@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>คำแนะนำ</title>
-</head>
-<link rel="stylesheet" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         .card {
             border-radius: 10px;
@@ -26,7 +25,28 @@
         .card-body {
             text-align: center;
         }
+
+        .embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            margin-top: 10px;
+            /* Adjust if needed */
+        }
+
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
+</head>
 
 <body>
     <div class="container"></div>
@@ -37,17 +57,15 @@
             <div class="card">
                 <div class="card-body">
                     <br>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ความรู้เกี่ยวกับโรค
-                            ปอดอุดกั้นเรื้อรัง
-
-                        </b></h5>
+                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง</b>
+                    </h5>
                     <hr>
                     <div class="container">
-                        <img src="../image/ความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง.jpg" class="img-fluid" alt="COPD Image"
-                            width="45%" height="50%">
+                        <img src="../image/aa.jpg" class="img-fluid" alt="COPD Image" width="45%" height="50%">
                     </div>
                     <hr>
-                    <!-- <a href="./testAndQmMRC/1Qmmrc.html" class="btn btn-outline-info"  id="submitLink" onclick="goToMMRC()">กรอกข้อมูล</a> -->
+                    <button class="btn btn-outline-info" data-bs-toggle="modal"
+                        data-bs-target="#pdfModal">กดต่อไป</button>
                 </div>
             </div>
         </div>
@@ -56,16 +74,15 @@
             <div class="card">
                 <div class="card-body">
                     <br>
-                    <!-- <hr> -->
                     <h5 class="card-title"><b style="color: rgb(0, 177, 177);">เทคนิคการสูดพ่นยา</b></h5>
                     <hr>
-                    <!-- <br> -->
                     <div class="container">
-                        <img src="../image/เทคนิคการสูดพ่นยา.jpg" class="img-fluid" style="border-radius: 10px;"
-                            alt="Logo Data Image" width="47%" height="50%">
+                        <img src="../image/bb.jpg" class="img-fluid" style="border-radius: 10px;" alt="Logo Data Image"
+                            width="24%" height="50%">
                     </div>
                     <hr class="">
-                    <!-- <a href="./smoke/smokeIndex.html" class="btn btn-outline-info" id="submitLink1" onclick="goToSmoke()">กรอกข้อมูล</a> -->
+                    <button class="btn btn-outline-info" data-bs-toggle="modal"
+                        data-bs-target="#pdfModal1">กดต่อไป</button>
                 </div>
             </div>
         </div>
@@ -77,11 +94,12 @@
                     <h5 class="card-title"><b style="color: rgb(0, 177, 177);">อาหาร</b></h5>
                     <hr>
                     <div class="container">
-                        <img src="../image/อาหาร.jpg" class="img-fluid" style="border-radius: 10px;"
-                            alt="Evaluation Image" width="45%" height="50%">
+                        <img src="../image/cc.jpg" class="img-fluid" style="border-radius: 10px;" alt="Evaluation Image"
+                            width="30%" height="50%">
                     </div>
                     <hr>
-                    <!-- <a href="./recommand/index_recommand.html" id="submitLink2" class="btn btn-outline-info">กรอกข้อมูล</a> -->
+                    <button class="btn btn-outline-info" data-bs-toggle="modal"
+                        data-bs-target="#pdfModal2">กดต่อไป</button>
                 </div>
             </div>
         </div>
@@ -93,129 +111,107 @@
                     <h5 class="card-title"><b style="color: rgb(0, 177, 177);">การออกกำลังกาย</b></h5>
                     <hr>
                     <div class="container">
-                        <img src="../image/ออกกำลัง.png" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
+                        <img src="../image/dd.jpg" class="img-fluid" alt="QR Code Image" width="30%" height="50%">
                     </div>
                     <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ความรู้ทั่วไปเกี่ยวกับ
-                            โรคปอดอุดกั้นเรื้อรัง </b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/copd.jpg" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ปัจจัยที่ทำให้เกิดโรค
-                            ปอดอุดกั้นเรื้อรัง</b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/ปัจจัยที่ทำให้เกิดโรคปอดอุดกั้นเรื้อรัง.jpg" class="img-fluid"
-                            alt="QR Code Image" width="45%" height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);"> PM2.5
-                        </b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/pm2.5-covid19-relationship-fb.jpg" class="img-fluid" alt="QR Code Image"
-                            width="45%" height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">บุหรี่</b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/บุหรี่.jpg" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ควันจากการ
-
-                            ทำอาหาร</b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/หมูกระทะ(1).jpg" class="img-fluid" alt="QR Code Image" width="45%"
-                            height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ไฟป่า</b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/ไฟป่า.jpg" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <hr>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">การออกกำลังกายสำหรับผู้ป่วย
-
-                            โรคปอดอุดกั้นเรื้อรัง</b></h5>
-                    <hr>
-                    <div class="container">
-                        <img src="../image/ออกกำลัง.png" class="img-fluid" alt="QR Code Image" width="45%" height="50%">
-                    </div>
-                    <hr>
-                    <!-- <a href="./mmrcAndCAT.html" class="btn btn-outline-info">กรอกข้อมูล</a> -->
+                    <button class="btn btn-outline-info" data-bs-toggle="modal"
+                        data-bs-target="#pdfModal3">กดต่อไป</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal for PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">ความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="/pdf/ความรู้ทั่วไป.pdf" style="width:100%; height:80vh;" frameborder="0"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for PDF with YouTube -->
+    <div class="modal fade" id="pdfModal1" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel1">เทคนิคการสูดพ่นยา</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- PDF iframe -->
+                    <iframe src="/pdf/พ่นยา.pdf" style="width:100%; height:60vh;" frameborder="0"></iframe>
+                    <hr>
+                    <!-- YouTube embed -->
+                    <div class="embed-container">
+                        <iframe src="https://www.youtube.com/embed/videoseries?list=PLfiAIwAQV4DG96Kbzen7ZzQRyBeG0nRUW"
+                            frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for PDF -->
+    <div class="modal fade" id="pdfModal2" tabindex="-1" aria-labelledby="pdfModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel2">อาหาร</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="/pdf/อาหาร.pdf" style="width:100%; height:80vh;" frameborder="0"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal for video -->
+<div class="modal fade" id="pdfModal3" tabindex="-1" aria-labelledby="pdfModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel2">การออกกำลังกาย</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Video element with local path -->
+                <video controls style="width:100%; height:auto;">
+                    <source src="/pdf/Video การออกกำลังกายและการฝึกการหายใจ.mov" type="video/mp4">
+                    <!-- Fallback text for browsers that do not support the video tag -->
+                    
+                </video>
+            </div>
+            <div class="modal-footer">
+                <a href="../check/check.html" class="btn btn-outline-info">แบบประเมินการออกกำลังกาย</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<center><a href="../selectForm.html" class="btn btn-secondary">กลับ</a></center>
+
+
 
     <br><br>
 
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
 
 </html>
