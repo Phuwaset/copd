@@ -108,6 +108,7 @@
             // Add event listener for the "ยาทาน" button
             document.querySelector('.btn-outline-light[href="#"]').addEventListener('click', function () {
                 // Update the existing object with 'ยาทาน'
+                event.preventDefault();
                 updateDrugType('ยาทาน');
 
                 // Redirect to drug_4.html with URL parameters
@@ -117,6 +118,7 @@
             // Add event listener for the "ยาพ่น" button
             document.getElementById('have_drug').addEventListener('click', function () {
                 // Update the existing object with 'ยาพ่น'
+                event.preventDefault();
                 updateDrugType('ยาพ่น');
 
                 // Redirect to drug_4.html with URL parameters
