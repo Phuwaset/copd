@@ -82,82 +82,66 @@ function doPost(e) {
 }
 
 
+
 function doGet(e) {
-    var id = e.parameter.id;
-    var Id_P = e.parameter.Id_P;
-    var name = e.parameter.name;
+  var id = e.parameter.id;
+  var Id_P = e.parameter.Id_P;
+  var name = e.parameter.name ? e.parameter.name.toLowerCase() : null;
+  var surname = e.parameter.surname ? e.parameter.surname.toLowerCase() : null;
 
-    if (!id && !Id_P) {
-      return ContentService.createTextOutput(JSON.stringify({
-        error: 'ID or Id_P parameter is missing'
-      })).setMimeType(ContentService.MimeType.JSON);
-    }
+  Logger.log('ID: ' + id);
+  Logger.log('Id_P: ' + Id_P);
+  Logger.log('Name: ' + name);
+  Logger.log('Surname: ' + surname);
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = sheet.getDataRange().getValues();
-
-    for (var i = 1; i < data.length; i++) {
-      if ((Id_P && data[i][4].toString() === Id_P.toString()) || (id && data[i][0] === id)) {
-        return ContentService.createTextOutput(JSON.stringify({
-          id: data[i][0],
-          name: data[i][2],
-          surname: data[i][3],
-          Id_P: data[i][4],
-          gender: data[i][8],
-          age: data[i][9],
-          career: data[i][5]
-        })).setMimeType(ContentService.MimeType.JSON);
-      }
-    }
-
+  if (!id && !Id_P && !name && !surname) {
+    Logger.log('ID, Id_P, name, or surname parameter is missing');
     return ContentService.createTextOutput(JSON.stringify({
-      error: 'ID or Id_P not found'
+      error: 'ID, Id_P, name, or surname parameter is missing'
     })).setMimeType(ContentService.MimeType.JSON);
   }
 
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
 
+  for (var i = 1; i < data.length; i++) {
+    var sheetName = data[i][2] ? data[i][2].toString().toLowerCase() : "";
+    var sheetSurname = data[i][3] ? data[i][3].toString().toLowerCase() : "";
 
-  function doGet(e) {
-    var id = e.parameter.id;
-    var Id_P = e.parameter.Id_P;
-    var name = e.parameter.name;
-
-    Logger.log('ID: ' + id);
-    Logger.log('Id_P: ' + Id_P);
-
-    if (!id && !Id_P) {
-      Logger.log('ID or Id_P parameter is missing');
+    // ค้นหาด้วย Id_P หรือ id
+    if ((Id_P && data[i][4].toString() === Id_P.toString()) || (id && data[i][0] === id)) {
       return ContentService.createTextOutput(JSON.stringify({
-        error: 'ID or Id_P parameter is missing'
+        id: data[i][0],
+        name: data[i][2],
+        surname: data[i][3],
+        Id_P: data[i][4],
+        gender: data[i][8],
+        age: data[i][9],
+        career: data[i][5]
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var data = sheet.getDataRange().getValues();
-
-    for (var i = 1; i < data.length; i++) {
-      Logger.log('Value from Sheet (Id_P): ' + data[i][4]);
-      Logger.log('Value input (Id_P): ' + Id_P);
-
-      if ((Id_P && data[i][4].toString() === Id_P.toString()) || (id && data[i][0] === id)) {
-        return ContentService.createTextOutput(JSON.stringify({
-          id: data[i][0],
-          name: data[i][2],
-          surname: data[i][3],
-          Id_P: data[i][4],
-          gender: data[i][8],
-          age: data[i][9],
-          career: data[i][5]
-        })).setMimeType(ContentService.MimeType.JSON);
-      }
+    // ค้นหาด้วย name และ surname (แบบไม่คำนึงถึงตัวพิมพ์เล็กใหญ่)
+    if (name && surname && sheetName === name && sheetSurname === surname) {
+      return ContentService.createTextOutput(JSON.stringify({
+        id: data[i][0],
+        name: data[i][2],
+        surname: data[i][3],
+        Id_P: data[i][4],
+        gender: data[i][8],
+        age: data[i][9],
+        career: data[i][5]
+      })).setMimeType(ContentService.MimeType.JSON);
     }
-
-
-    Logger.log('ID or Id_P not found');
-    return ContentService.createTextOutput(JSON.stringify({
-      error: 'ID or Id_P not found'
-    })).setMimeType(ContentService.MimeType.JSON);
   }
+
+  Logger.log('ID, Id_P, name, or surname not found');
+  return ContentService.createTextOutput(JSON.stringify({
+    error: 'ID, Id_P, name, or surname not found'
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
+
 
 
 
