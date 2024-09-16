@@ -9,11 +9,15 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="mt-5">เข้าสู่ระบบด้วยเลขบัตรประชาชน</h2>
+        <h2 class="mt-5">เข้าสู่ระบบด้วยชื่อและนามสกุล</h2>
         <form id="loginForm" class="mt-4">
             <div class="form-group">
-                <label for="idInput">เลขบัตรประชาชน:</label>
-                <input type="text" id="idInput" class="form-control" required pattern="\d{13}" title="กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก" maxlength="13">
+                <label for="nameInput">ชื่อ:</label>
+                <input type="text" id="nameInput" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="surnameInput">นามสกุล:</label>
+                <input type="text" id="surnameInput" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary mt-3">ค้นหา</button>
         </form>
@@ -23,9 +27,11 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault();
-            const id = document.getElementById('idInput').value;
+            const name = document.getElementById('nameInput').value;
+            const surname = document.getElementById('surnameInput').value;
 
-            fetch(`https://script.google.com/macros/s/AKfycbyPb8ZYHzUxXsatykGHGDmRKusoNC0tr4_VEyUtcnS0PSfvQSZAMrAvg14VDOtyjypZ/exec?Id_P=${encodeURIComponent(id)}`)
+            // ส่งคำขอไปยัง Google Apps Script ด้วยชื่อและนามสกุล
+            fetch(`https://script.google.com/macros/s/AKfycbwObdrErhJ2FRw-K9IYAawU3kUKRUzh23SklsYh-mCMGfYMEPcDzHy7bs1omJDHeyf8hA/exec?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -39,7 +45,7 @@
                             <p>เพศ: ${data.gender || 'N/A'}</p>
                             <p>อายุ: ${data.age || 'N/A'}</p>
                             <p>สถานะ: ${data.career || 'N/A'}</p>
-                            <a href="selectForm.html?id=${encodeURIComponent(id)}&name=${encodeURIComponent(data.name || 'N/A')}&Id_P=${encodeURIComponent(data.Id_P || 'N/A')}&surname=${encodeURIComponent(data.surname || 'N/A')}" class="btn btn-success">เข้าสู่หน้า Select Form</a>
+                            <a href="selectForm.html?id=${encodeURIComponent(data.id || '')}&name=${encodeURIComponent(data.name || 'N/A')}&Id_P=${encodeURIComponent(data.Id_P || 'N/A')}&surname=${encodeURIComponent(data.surname || 'N/A')}" class="btn btn-success">เข้าสู่หน้า Select Form</a>
                         `;
                         document.getElementById('result').innerHTML = resultHTML;
                     }
