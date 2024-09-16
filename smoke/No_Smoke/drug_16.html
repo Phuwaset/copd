@@ -167,6 +167,7 @@
 
             // ตั้งค่าปุ่มกลับ
             document.getElementById('backBtn').addEventListener('click', function () {
+                event.preventDefault();
                 window.location.href = `../../selectForm.html?Id_P=${Id_P}&name=${name}&surname=${surname}`;
             });
         });
