@@ -102,11 +102,13 @@
 
             // Add event listener for the "มี" button
             document.getElementById('have_drug').addEventListener('click', function () {
+                event.preventDefault();
                 updateMedicalCondition('มี');
             });
 
             // Add event listener for the "ไม่มี" button
             document.getElementById('no_drug').addEventListener('click', function () {
+                event.preventDefault();
                 updateMedicalCondition('ไม่มี');
             });
         });
