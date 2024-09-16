@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
-    <link rel="stylesheet" href="../../style.css">    
+    <link rel="stylesheet" href="../../style.css">
     <style>
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
@@ -54,12 +54,12 @@
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
-                        <label for="">นํ้าหนัก</label><br><br>
+                        <label for="">นํ้าหนัก (kg)</label><br><br>
                         <input type="text" id="weight" class="form-control"><br>
-                        <label for="">ส่วนสูง</label><br><br>
+                        <label for="">ส่วนสูง (cm)</label><br><br>
                         <input type="text" id="height" class="form-control"><br>
-                        <label for="">ดัชนีมวลกาย</label><br><br>
-                        <input type="text" id="bmi" class="form-control"><br>
+                        <label for="">ดัชนีมวลกาย (BMI)</label><br><br>
+                        <input type="text" id="bmi" class="form-control" readonly><br>
                         <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
                     <div class="col"></div>
@@ -80,11 +80,34 @@
             const bmiInput = document.getElementById('bmi');
             const nextBtn = document.getElementById('nextBtn');
 
+            // Function to calculate BMI
+            function calculateBMI(weight, height) {
+                if (weight > 0 && height > 0) {
+                    const heightInMeters = height / 100; // Convert height to meters
+                    const bmi = weight / (heightInMeters * heightInMeters);
+                    return bmi.toFixed(2); // Return BMI rounded to 2 decimal places
+                }
+                return '';
+            }
+
+            // Event listener for input changes
+            weightInput.addEventListener('input', function () {
+                const weight = parseFloat(weightInput.value);
+                const height = parseFloat(heightInput.value);
+                bmiInput.value = calculateBMI(weight, height); // Update BMI value
+            });
+
+            heightInput.addEventListener('input', function () {
+                const weight = parseFloat(weightInput.value);
+                const height = parseFloat(heightInput.value);
+                bmiInput.value = calculateBMI(weight, height); // Update BMI value
+            });
+
             // Event listener for the "ถัดไป" button
             nextBtn.addEventListener('click', function () {
                 // Get values from inputs
-                const weight = weightInput.value;
-                const height = heightInput.value;
+                const weight = parseFloat(weightInput.value);
+                const height = parseFloat(heightInput.value);
                 const bmi = bmiInput.value;
 
                 // Retrieve the existing object from localStorage
