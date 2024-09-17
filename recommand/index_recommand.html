@@ -70,18 +70,18 @@
     document.addEventListener('DOMContentLoaded', function () {
         // Extract URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const Id_P = urlParams.get('Id_P');
+        // const Id_P = urlParams.get('Id_P');
         const name = urlParams.get('name');
         const surname = urlParams.get('surname');
 
         // Retrieve Id_P and name from localStorage
-        const storedId_P = localStorage.getItem('userId_P');
+        // const storedId_P = localStorage.getItem('userId_P');
         const storedName = localStorage.getItem('userName');
         const storedSurname = localStorage.getItem('surname');
 
 
         // สร้าง URL พร้อมพารามิเตอร์
-        const url_smoke = `./recommand_1.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+        const url_smoke = `./recommand_1.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
 
         // เปลี่ยน href ของลิงก์ให้ไปยัง URL ที่สร้างขึ้น
         document.getElementById('submitLink1').setAttribute('href', url_smoke);
