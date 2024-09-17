@@ -78,16 +78,16 @@
         document.addEventListener('DOMContentLoaded', function () {
             // ดึงพารามิเตอร์จาก URL
             const urlParams = new URLSearchParams(window.location.search);
-            const Id_P = urlParams.get('Id_P');
+            // const Id_P = urlParams.get('Id_P');
             const name = urlParams.get('name');
             const surname = urlParams.get('surname');
 
             // สร้าง URL ด้วยพารามิเตอร์สำหรับลิงก์ "สูบ"
-            const smokeURL = `../No_Smoke/drug_1.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            const smokeURL = `../No_Smoke/drug_1.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             document.getElementById('smokeLink').setAttribute('href', smokeURL);
 
             // สร้าง URL ด้วยพารามิเตอร์สำหรับลิงก์ "ไม่สูบ"
-            const noSmokeURL = `../No_Smoke/drug_2.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+            const noSmokeURL = `../No_Smoke/drug_2.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             document.getElementById('noSmokeLink').setAttribute('href', noSmokeURL);
 
             // เพิ่มตัวจัดการคลิกสำหรับ "สูบ"
@@ -95,7 +95,7 @@
                 // สร้างอ็อบเจ็กต์การสูบ
                 const smoking = {
                     status: 'smoke',
-                    Id_P: Id_P,
+                    // Id_P: Id_P,
                     name: name,
                     surname: surname
                 };
@@ -109,7 +109,7 @@
                 // สร้างอ็อบเจ็กต์การไม่สูบ
                 const nonSmoking = {
                     status: 'no_smoke',
-                    Id_P: Id_P,
+                    // Id_P: Id_P,
                     name: name,
                     surname: surname
                 };
