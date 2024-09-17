@@ -369,6 +369,7 @@
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+
           <script>
 function submitCAT1() {
     const CAT1_Data = {};
@@ -456,7 +457,7 @@ function submitCAT1() {
 
     // ฟังก์ชันสำหรับการเปลี่ยนเส้นทางเมื่อกดปุ่ม "สำเร็จ"
     function redirectToSelectForm() {
-        // const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+        const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
         const name = localStorage.getItem('userName');    // ดึงค่า name จาก localStorage หรือแหล่งข้อมูลอื่นๆ
         const surname = localStorage.getItem('userSurname');  // ดึงค่า surname จาก localStorage หรือแหล่งข้อมูลอื่นๆ
 
@@ -464,6 +465,8 @@ function submitCAT1() {
         window.location.href = `../selectForm.html?id=${encodeURIComponent(encodedId)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
     }
 }
+
+          </script>
 
 
           <!-- SweetAlert2 JS -->
