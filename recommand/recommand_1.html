@@ -7,7 +7,6 @@
     <title>คำแนะนำ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
     <link rel="stylesheet" href="../style.css">
     <style>
         .card {
@@ -47,17 +46,16 @@
             background-color: #fff;
             width: 90vw;
             max-width: 1000px;
-            height: 100vh;
-            max-height: 1000px;
+            height: 90vh;
             padding: 20px;
             border-radius: 10px;
             overflow: hidden;
         }
 
-        /* ปรับ canvas ให้เป็น responsive */
-        .overlay-content canvas {
+        /* ปรับ iframe ให้เป็น responsive */
+        .overlay-content iframe {
             width: 100%;
-            height: auto;
+            height: 100%;
         }
 
         /* Media Query สำหรับหน้าจอขนาดเล็ก */
@@ -148,39 +146,28 @@
         <div class="overlay-content">
             <!-- ปุ่มปิด Overlay -->
             <button onclick="closeOverlay('pdfOverlay1')" class="form-control">ปิด</button>
-            <canvas id="pdfCanvas1"></canvas>
+            <iframe id="pdfIframe1" src="" frameborder="0"></iframe>
         </div>
     </div>
     <div class="overlay" id="pdfOverlay2">
         <div class="overlay-content">
             <!-- ปุ่มปิด Overlay -->
             <button onclick="closeOverlay('pdfOverlay2')" class="form-control">ปิด</button>
-            <canvas id="pdfCanvas2">
-
-            </canvas>
+            <iframe id="pdfIframe2" src="" frameborder="0"></iframe>
         </div>
     </div>
     <div class="overlay" id="pdfOverlay3">
         <div class="overlay-content">
             <!-- ปุ่มปิด Overlay -->
             <button onclick="closeOverlay('pdfOverlay3')" class="form-control">ปิด</button>
-
-            <canvas id="pdfCanvas3"></canvas>
-
-            <iframe src="/pdf/อาหาร.pdf"></iframe>
-
+            <iframe id="pdfIframe3" src="" frameborder="0"></iframe>
         </div>
     </div>
     <div class="overlay" id="pdfOverlay4">
         <div class="overlay-content">
             <!-- ปุ่มปิด Overlay -->
             <button onclick="closeOverlay('pdfOverlay4')" class="form-control">ปิด</button>
-            <canvas id="pdfCanvas4">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/aeseRPinto4?si=nzYzgemavQDTSq1Q"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </canvas>
+            <!-- <iframe id="pdfIframe4" src="https://www.youtube.com/embed/aeseRPinto4?si=nzYzgemavQDTSq1Q" frameborder="0" allowfullscreen></iframe> -->
         </div>
     </div>
 
@@ -191,33 +178,15 @@
         crossorigin="anonymous"></script>
 
     <script>
-        // เปิด Overlay และแสดง PDF โดยใช้ PDF.js
+        // เปิด Overlay และแสดง PDF โดยใช้ iframe
         function openOverlay(overlayId, pdfUrl) {
             document.getElementById(overlayId).style.display = 'flex';
-
-            const canvas = document.querySelector(`#${overlayId} canvas`);
-            const context = canvas.getContext('2d');
-            const containerWidth = document.querySelector(`#${overlayId}`).offsetWidth;
-
-            // ใช้ PDF.js เพื่อโหลดและแสดง PDF
-            pdfjsLib.getDocument(pdfUrl).promise.then(pdfDoc => {
-                pdfDoc.getPage(1).then(page => {
-                    // คำนวณขนาดของ viewport ตามความกว้างของ container
-                    const viewport = page.getViewport({ scale: containerWidth / page.getViewport({ scale: 1 }).width });
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    page.render(renderContext);
-                });
-            });
+            document.querySelector(`#${overlayId} iframe`).src = pdfUrl;
         }
 
         function closeOverlay(overlayId) {
             document.getElementById(overlayId).style.display = 'none';
+            document.querySelector(`#${overlayId} iframe`).src = ""; // ล้าง src เมื่อปิด overlay
         }
     </script>
 </body>
