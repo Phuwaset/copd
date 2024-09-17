@@ -80,11 +80,11 @@
                   <label for="">นามสกุล</label>
                   <input type="text" id="surname" name="surname" class="form-control" placeholder="นามสกุล" required>
                 </div>
-                <div class="mb-3 col-md-12">
+<!--                 <div class="mb-3 col-md-12">
                   <label for="Id_P">เลขบัตรประชาชน</label>
                   <input type="text" id="Id_P" name="Id_P" class="form-control" placeholder="ระบุเลขบัตรประชาชน 13 หลัก"
                     required pattern="\d{13}" title="กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก" maxlength="13">
-                </div>
+                </div> -->
 
                 <div class="mb-3 col-md-6">
                   <label for="">เพศ</label>
@@ -172,7 +172,7 @@
         var currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
         var name = document.getElementsByName('name')[0].value.trim();
         var surname = document.getElementById('surname').value.trim();
-        var Id_P = document.getElementById('Id_P').value.trim();
+        // var Id_P = document.getElementById('Id_P').value.trim();
         var career = document.getElementsByName('career')[0].value.trim();
         var location_working = document.getElementsByName('location_working')[0].value.trim();
         var gender = document.querySelector('input[name="gender"]:checked')?.value;
@@ -181,7 +181,7 @@
         var Cause_copd = document.getElementById('Cause_copd').value.trim();
 
         // Check if all fields are filled
-        if (name === "" || surname === "" || gender === "" || age === "" || career === "" || location_working === "" || Id_P === "" || Chronic_illness === "" || Cause_copd === "") {
+        if (name === "" || surname === "" || gender === "" || age === "" || career === "" || location_working === "" || Chronic_illness === "" || Cause_copd === "") {
           Swal.fire({
             title: 'เกิดข้อผิดพลาด!',
             text: 'กรุณากรอกข้อมูลให้ครบทุกฟิลด์',
@@ -221,7 +221,7 @@
             }).then(() => {
               // เก็บข้อมูลใน localStorage ก่อนย้ายไปหน้า selectForm.html
               localStorage.setItem('userId', encodedId); // เก็บ id ที่เข้ารหัส
-              localStorage.setItem('Id_P',Id_P);
+              // localStorage.setItem('Id_P',Id_P);
               localStorage.setItem('userName', name); // เก็บชื่อ
               localStorage.setItem('surname',surname);
 
@@ -229,7 +229,7 @@
               // console.log(name);
               // console.log(surname);
               // เปลี่ยนหน้าไปที่ selectForm.html พร้อม encodedId
-              window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+              window.location.href = `selectForm.html?id=${encodeURIComponent(encodedId)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             });
           })
           .catch(error => {
