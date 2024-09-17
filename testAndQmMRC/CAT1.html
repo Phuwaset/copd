@@ -370,108 +370,101 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
           <script>
-            function submitCAT1() {
-              const storedId_P = localStorage.getItem('userId_P');
-              const CAT1_Data = {};
+function submitCAT1() {
+    const CAT1_Data = {};
 
-              // กำหนดคำถามและชื่อของตัวเลือกที่ใช้ใน radio inputs
-              const questions = [
-                { text: 'ข้าพเจ้าไม่เคยมีอาการไอ', name: 'question1' },
-                { text: 'ข้าพเจ้าไม่มีเสมหะในปอดเลย', name: 'question2' },
-                { text: 'ข้าพเจ้าไม่รู้สึกแน่นหน้าอกเลย', name: 'question3' },
-                { text: 'เมื่อข้าพเจ้าเดินขึ้นเนินหรือขึ้นบันไดหนึ่งชั้น ข้าพเจ้ายังคงหายใจได้คล่อง', name: 'question4' },
-                { text: 'ข้าพเจ้าทำกิจกรรมต่างๆที่บ้านได้โดยไม่จำกัด', name: 'question5' },
-                { text: 'ข้าพเจ้ามีความมั่นใจที่จะออกไปนอกบ้านทั้งๆที่ ปอดข้าพเจ้ามีปัญหา', name: 'question6' },
-                { text: 'ข้าพเจ้านอนหลับสนิท', name: 'question7' },
-                { text: 'ข้าพเจ้ารู้สึกกระฉับกระเฉงอย่างมาก', name: 'question8' }
-              ];
+    // คำถามและชื่อของตัวเลือก
+    const questions = [
+        { text: 'ข้าพเจ้าไม่เคยมีอาการไอ', name: 'question1' },
+        { text: 'ข้าพเจ้าไม่มีเสมหะในปอดเลย', name: 'question2' },
+        { text: 'ข้าพเจ้าไม่รู้สึกแน่นหน้าอกเลย', name: 'question3' },
+        { text: 'เมื่อข้าพเจ้าเดินขึ้นเนินหรือขึ้นบันไดหนึ่งชั้น ข้าพเจ้ายังคงหายใจได้คล่อง', name: 'question4' },
+        { text: 'ข้าพเจ้าทำกิจกรรมต่างๆที่บ้านได้โดยไม่จำกัด', name: 'question5' },
+        { text: 'ข้าพเจ้ามีความมั่นใจที่จะออกไปนอกบ้านทั้งๆที่ ปอดข้าพเจ้ามีปัญหา', name: 'question6' },
+        { text: 'ข้าพเจ้านอนหลับสนิท', name: 'question7' },
+        { text: 'ข้าพเจ้ารู้สึกกระฉับกระเฉงอย่างมาก', name: 'question8' }
+    ];
 
-              // ดึงข้อมูลคำตอบที่เลือกและจัดเก็บไว้ใน CAT1_Data
-              questions.forEach(question => {
-                const selectedAnswer = document.querySelector(`input[name="${question.name}"]:checked`);
-                if (selectedAnswer) {
-                  CAT1_Data[question.name] = {
-                    value: selectedAnswer.value,
-                    detail: question.text
-                  };
-                }
-              });
+    // เก็บคำตอบที่เลือก
+    questions.forEach(question => {
+        const selectedAnswer = document.querySelector(`input[name="${question.name}"]:checked`);
+        if (selectedAnswer) {
+            CAT1_Data[question.name] = {
+                value: selectedAnswer.value,
+                detail: question.text
+            };
+        }
+    });
 
-              localStorage.setItem('CAT1_Data', JSON.stringify({
-                [storedId_P]: CAT1_Data
-              }));
-              console.log('Stored CAT1_Data:', JSON.parse(localStorage.getItem('CAT1_Data')));
+    localStorage.setItem('CAT1_Data', JSON.stringify(CAT1_Data));
+    console.log('Stored CAT1_Data:', JSON.parse(localStorage.getItem('CAT1_Data')));
 
-              // แปลงข้อมูลจาก URL
-              const urlParams = new URLSearchParams(window.location.search);
-              const idP = urlParams.get('Id_P');
-              const data = urlParams.get('data');
+    // แปลงข้อมูลจาก URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idP = urlParams.get('Id_P');
+    const data = urlParams.get('data');
 
-              let parsedData = {};
-              if (data) {
-                try {
-                  parsedData = JSON.parse(decodeURIComponent(data));
-                } catch (error) {
-                  console.error('Error parsing data:', error);
-                }
-              }
+    let parsedData = {};
+    if (data) {
+        try {
+            parsedData = JSON.parse(decodeURIComponent(data));
+        } catch (error) {
+            console.error('Error parsing data:', error);
+        }
+    }
 
-              console.log('Id_P:', idP);
-              console.log('Data:', parsedData);
+    console.log('Id_P:', idP);
+    console.log('Data:', parsedData);
 
-              function calculateMMRCCategoryScore(parsedData) {
-                let score = 0;
-                if (parsedData['1Qmmrc'] === 'ใช่') score += 1;
-                if (parsedData['2Qmmrc'] === 'ใช่') score += 1;
-                if (parsedData['3Qmmrc'] === 'ใช่') score += 1;
-                if (parsedData['4Qmmrc'] === 'ใช่') score += 1;
-                if (parsedData['5Qmmrc'] === 'ใช่') score += 1;
-                return score;
-              }
+    function calculateMMRCCategoryScore(parsedData) {
+        let score = 0;
+        if (parsedData['1Qmmrc'] === 'ใช่') score += 1;
+        if (parsedData['2Qmmrc'] === 'ใช่') score += 1;
+        if (parsedData['3Qmmrc'] === 'ใช่') score += 1;
+        if (parsedData['4Qmmrc'] === 'ใช่') score += 1;
+        if (parsedData['5Qmmrc'] === 'ใช่') score += 1;
+        return score;
+    }
 
-              function calculateCATScore(CAT1_Data) {
-                return Object.values(CAT1_Data).reduce((sum, item) => sum + parseInt(item.value, 10), 0);
-              }
+    function calculateCATScore(CAT1_Data) {
+        return Object.values(CAT1_Data).reduce((sum, item) => sum + parseInt(item.value, 10), 0);
+    }
 
-              // คำนวณคะแนน
-              const mMRC_Score = calculateMMRCCategoryScore(parsedData);
-              const CAT_Score = calculateCATScore(CAT1_Data);
+    // คำนวณคะแนน
+    const mMRC_Score = calculateMMRCCategoryScore(parsedData);
+    const CAT_Score = calculateCATScore(CAT1_Data);
 
-              // แสดงค่า mMRC_Score และ CAT_Score ใน console
-              console.log('mMRC Score:', mMRC_Score);
-              console.log('CAT Score:', CAT_Score);
-              console.log('Stored CAT1_Data:', JSON.parse(localStorage.getItem('CAT1_Data')));
+    // แสดงค่า mMRC_Score และ CAT_Score ใน console
+    console.log('mMRC Score:', mMRC_Score);
+    console.log('CAT Score:', CAT_Score);
 
-              // แสดง modal ที่เหมาะสม
-              if (mMRC_Score >= 3 && mMRC_Score <= 5 && CAT_Score >= 30) {
-                $('#modalE').modal('show');
-              } else if (mMRC_Score >= 2 && CAT_Score >= 10 && CAT_Score <=29) {
-                $('#modalB').modal('show');
-              } else if (mMRC_Score >= 0 && mMRC_Score <= 1 && CAT_Score < 10) {
-                $('#modalA').modal('show');
-              } else {
-                $('#defaultModal').modal('show');
-              }
+    // แสดง modal ที่เหมาะสม
+    if (mMRC_Score >= 3 && mMRC_Score <= 5 && CAT_Score >= 30) {
+        $('#modalE').modal('show');
+    } else if (mMRC_Score >= 2 && CAT_Score >= 10 && CAT_Score <= 29) {
+        $('#modalB').modal('show');
+    } else if (mMRC_Score >= 0 && mMRC_Score <= 1 && CAT_Score < 10) {
+        $('#modalA').modal('show');
+    } else {
+        $('#defaultModal').modal('show');
+    }
 
-              // เมื่อ modal ปิด ให้ทำการเปลี่ยนเส้นทาง
-              $('#modalA, #modalB, #modalE, #defaultModal').on('hidden.bs.modal', function () {
-                redirectToSelectForm();
-              });
+    // เมื่อ modal ปิด ให้ทำการเปลี่ยนเส้นทาง
+    $('#modalA, #modalB, #modalE, #defaultModal').on('hidden.bs.modal', function () {
+        redirectToSelectForm();
+    });
 
-              // ฟังก์ชันสำหรับการเปลี่ยนเส้นทางเมื่อกดปุ่ม "สำเร็จ"
-              function redirectToSelectForm() {
-                const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
-                const Id_P = localStorage.getItem('userId_P');    // ดึงค่า Id_P จาก localStorage หรือแหล่งข้อมูลอื่นๆ
-                const name = localStorage.getItem('userName');    // ดึงค่า name จาก localStorage หรือแหล่งข้อมูลอื่นๆ
-                const surname = localStorage.getItem('userSurname');  // ดึงค่า surname จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+    // ฟังก์ชันสำหรับการเปลี่ยนเส้นทางเมื่อกดปุ่ม "สำเร็จ"
+    function redirectToSelectForm() {
+        const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+        const name = localStorage.getItem('userName');    // ดึงค่า name จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+        const surname = localStorage.getItem('userSurname');  // ดึงค่า surname จาก localStorage หรือแหล่งข้อมูลอื่นๆ
 
-                // เปลี่ยนเส้นทางไปยัง URL ใหม่
-                window.location.href = `../selectForm.html?id=${encodeURIComponent(encodedId)}&Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
-              }
-            }
+        // เปลี่ยนเส้นทางไปยัง URL ใหม่
+        window.location.href = `../selectForm.html?id=${encodeURIComponent(encodedId)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+    }
+}
 
-
-          </script>
 
           <!-- SweetAlert2 JS -->
           <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
