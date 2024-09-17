@@ -26,28 +26,46 @@
             text-align: center;
         }
 
-        .embed-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: #000;
-            margin-top: 10px;
-            /* Adjust if needed */
-        }
-
-        .embed-container iframe {
-            position: absolute;
+        /* พื้นหลังมืดสำหรับ Overlay */
+        .overlay {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 10px;
         }
 
-        .custom-modal-width {
-            max-width: 100%;
+        /* กล่องเนื้อหาซ้อนทับ */
+        .overlay-content {
+            background-color: #fff;
+            width: 90vw;
+            max-width: 1000px;
+            height: 100vh;
+            max-height: 1000px;
+            padding: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* ปรับ iframe ให้เป็น responsive */
+        .overlay-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Media Query สำหรับหน้าจอขนาดเล็ก */
+        @media (max-width: 768px) {
+            .overlay-content {
+                width: 100vw;
+                height: 90vh;
+            }
         }
     </style>
 </head>
@@ -61,15 +79,14 @@
             <div class="card">
                 <div class="card-body">
                     <br>
-                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง</b>
-                    </h5>
+                    <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง</b></h5>
                     <hr>
                     <div class="container">
                         <img src="../image/aa.jpg" class="img-fluid" alt="COPD Image" width="45%" height="50%">
                     </div>
                     <hr>
-                    <button class="btn btn-outline-info" data-bs-toggle="modal"
-                        data-bs-target="#pdfModal">กดต่อไป</button>
+                    <button onclick="openOverlay('pdfOverlay1')"
+                        class="form-control">เปิดความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง</button>
                 </div>
             </div>
         </div>
@@ -85,8 +102,8 @@
                             width="24%" height="50%">
                     </div>
                     <hr class="">
-                    <button class="btn btn-outline-info" data-bs-toggle="modal"
-                        data-bs-target="#pdfModal1">กดต่อไป</button>
+                    <button onclick="openOverlay('pdfOverlay2')"
+                        class="form-control">เปิดความรู้เกี่ยวกับเทคนิคการสูดพ่นยา</button>
                 </div>
             </div>
         </div>
@@ -102,8 +119,8 @@
                             width="30%" height="50%">
                     </div>
                     <hr>
-                    <button class="btn btn-outline-info" data-bs-toggle="modal"
-                        data-bs-target="#pdfModal2">กดต่อไป</button>
+                    <button onclick="openOverlay('pdfOverlay3')"
+                        class="form-control">เปิดความรู้เกี่ยวกับอาหาร</button>
                 </div>
             </div>
         </div>
@@ -118,168 +135,52 @@
                         <img src="../image/dd.jpg" class="img-fluid" alt="QR Code Image" width="30%" height="50%">
                     </div>
                     <hr>
-                    <button class="btn btn-outline-info" data-bs-toggle="modal"
-                        data-bs-target="#pdfModal3">กดต่อไป</button>
+                    <button onclick="openOverlay('pdfOverlay4')"
+                        class="form-control">เปิดความรู้เกี่ยวกับการออกกำลังกาย</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for PDF -->
-    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-width">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pdfModalLabel">ความรู้เกี่ยวกับโรคปอดอุดกั้นเรื้อรัง <a href="../pdf/ความรู้ทั่วไป.pdf" target="_blank">Open PDF</a></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="/pdf/ความรู้ทั่วไป.html" style="width:100%; height:90vh;" frameborder="0"></iframe>
-                    <!-- <iframe src="/pdf/test.html" style="width:100%; height:90vh;" frameborder="0"></iframe> -->
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                </div>
-            </div>
+    <!-- Overlay Elements -->
+    <div class="overlay" id="pdfOverlay1">
+        <div class="overlay-content">
+            <!-- ปุ่มปิด Overlay -->
+            <button onclick="closeOverlay('pdfOverlay1')" class="form-control">ปิด</button>
+            <iframe src="/pdf/ความรู้ทั่วไป.pdf"></iframe>
         </div>
     </div>
-    <!-- Modal for PDF with YouTube -->
-    <div class="modal fade" id="pdfModal1" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-width">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pdfModalLabel1">เทคนิคการสูดพ่นยา <a href="../pdf/พ่นยา.pdf" target="_blank">Open PDF</a></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- PDF iframe -->
-                    <iframe src="/pdf/พ่นยา.html" style="width:100%; height:90vh;" frameborder="0"></iframe>
-                    <!-- <iframe src="/pdf/พ่นยา.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe> -->
-
-
-
-                    <hr>
-                    YouTube embed
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/4xOj3FqSeto?si=WkrRAMAu7Pf6sixp"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/JAZdogKdZU4?si=ASZ8J1DF_LHjZvzs"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/KGGN3A5kL0c?si=citk3fAmvbQFc3Ho"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/IIk-1a-nMJU?si=1OeI1ad3EEV9E-KW"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/iwd_5w8c-Fg?si=CErSzTl4UTqHJdFQ"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/HP9avxXff1Q?si=Cyi0rDtpxzvfl1cV"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/PNUlupAoQ_Y?si=swxNzdlCexXNuyqY"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/Z4EE-TVdIdA?si=h893UuiwbJGiCw4t"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
-                            src="https://www.youtube.com/embed/fRDkhgyAxHE?si=4C6nzSmWgfoOsZoh"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                </div>
-            </div>
+    <div class="overlay" id="pdfOverlay2">
+        <div class="overlay-content">
+            <!-- ปุ่มปิด Overlay -->
+            <button onclick="closeOverlay('pdfOverlay2')" class="form-control">ปิด</button>
+            <iframe src="/pdf/พ่นยา.pdf"></iframe>
         </div>
     </div>
-    <!-- Modal for PDF -->
-    <div class="modal fade" id="pdfModal2" tabindex="-1" aria-labelledby="pdfModalLabel2" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal-width">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pdfModalLabel2">อาหาร  <a href="../pdf/อาหาร.pdf" target="_blank">Open PDF</a>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="../pdf/อาหาร.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
-                    
-                    <!-- <iframe src="../pdf/อาหาร.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                </div>
-            </div>
+    <div class="overlay" id="pdfOverlay3">
+        <div class="overlay-content">
+            <!-- ปุ่มปิด Overlay -->
+            <button onclick="closeOverlay('pdfOverlay3')" class="form-control">ปิด</button>
+            <iframe src="/pdf/อาหาร.html"></iframe>
         </div>
     </div>
-    <!-- Modal for video -->
-    <div class="modal fade" id="pdfModal3" tabindex="-1" aria-labelledby="pdfModalLabel2" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pdfModalLabel2">การออกกำลังกาย</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Video element with local path -->
-                    <!-- YouTube embed -->
-                    <div class="embed-container">
-                        <iframe width="560" height="315"
+    <div class="overlay" id="pdfOverlay4">
+        <div class="overlay-content">
+            <!-- ปุ่มปิด Overlay -->
+            <button onclick="closeOverlay('pdfOverlay4')" class="form-control">ปิด</button>
+            <hr>
+            <a href="../check/check.html" class="form-control btn btn-outline-info">ลิ้งค์ ประเมินออกกำลังกาย</a>
+            <hr>
+            <!-- ใส่ลิงค์ Youtube ที่คุณต้องการ -->
+            <iframe width="560" height="315"
                             src="https://www.youtube.com/embed/aeseRPinto4?si=nzYzgemavQDTSq1Q"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="../check/check.html" class="btn btn-outline-info">แบบประเมินการออกกำลังกาย</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                </div>
-            </div>
+          
         </div>
     </div>
-
-
-
 
     <br><br>
 
@@ -287,5 +188,14 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    function openOverlay(overlayId) {
+        document.getElementById(overlayId).style.display = 'flex';
+    }
+
+    function closeOverlay(overlayId) {
+        document.getElementById(overlayId).style.display = 'none';
+    }
+</script>
 
 </html>
