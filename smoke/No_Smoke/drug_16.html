@@ -107,14 +107,14 @@
         document.addEventListener('DOMContentLoaded', function () {
             // ดึงข้อมูลจาก localStorage
             const data = JSON.parse(localStorage.getItem('smoking')) || {};
-            const Id_P = encodeURIComponent(data.Id_P || '');
+            // const Id_P = encodeURIComponent(data.Id_P || '');
             const name = encodeURIComponent(data.name || '');
             const surname = encodeURIComponent(data.surname || '');
 
             // ฟังก์ชันในการแปลและจัดรูปแบบข้อมูล
             function formatData(key, value) {
                 const translations = {
-                    Id_P: "เลขบัตรประชาชน",
+                    // Id_P: "เลขบัตรประชาชน",
                     bmi: "ดัชนีมวลกาย",
                     breathing_practice: "ฝึกหายใจ",
                     breathing_noPractice: "ไม่ฝึกหายใจ",
@@ -168,7 +168,7 @@
             // ตั้งค่าปุ่มกลับ
             document.getElementById('backBtn').addEventListener('click', function () {
                 event.preventDefault();
-                window.location.href = `../../selectForm.html?Id_P=${Id_P}&name=${name}&surname=${surname}`;
+                window.location.href = `../../selectForm.html?name=${name}&surname=${surname}`;
             });
         });
     </script>
