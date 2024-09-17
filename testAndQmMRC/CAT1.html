@@ -457,12 +457,12 @@
                       
                           // ฟังก์ชันสำหรับการเปลี่ยนเส้นทางเมื่อกดปุ่ม "สำเร็จ"
                           function redirectToSelectForm() {
-                              const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
+                              // const encodedId = localStorage.getItem('userId');  // ดึงค่า id จาก localStorage หรือแหล่งข้อมูลอื่นๆ
                               const name = localStorage.getItem('userName');    // ดึงค่า name จาก localStorage หรือแหล่งข้อมูลอื่นๆ
                               const surname = localStorage.getItem('userSurname');  // ดึงค่า surname จาก localStorage หรือแหล่งข้อมูลอื่นๆ
                       
                               // เปลี่ยนเส้นทางไปยัง URL ใหม่
-                              window.location.href = `../selectForm.html?id=${encodeURIComponent(encodedId)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
+                              window.location.href = `../selectForm.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
                           }
                       }
 
