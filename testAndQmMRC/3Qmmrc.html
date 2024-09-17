@@ -86,11 +86,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Get URL parameters
             const urlParams = new URLSearchParams(window.location.search);
-            const storedId_P = urlParams.get('Id_P');
+            const name = urlParams.get('name');
+            const surname = urlParams.get('surname');
             const data = urlParams.get('data');
 
             // Check if values exist in URL parameters
-            if (!storedId_P || !data) {
+            if (!name || !surname || !data) {
                 // Redirect to index.html if missing data
                 window.location.href = '../index.html';
                 return;
@@ -100,29 +101,34 @@
             const parsedData = JSON.parse(decodeURIComponent(data));
 
             // Save values to localStorage
-            localStorage.setItem('userId_P', storedId_P);
+            const userKey = `${name}_${surname}`;
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userSurname', surname);
             localStorage.setItem('mMRC_Data', JSON.stringify({
-                [storedId_P]: {
+                [userKey]: {
                     ...parsedData
                 }
             }));
 
-            console.log('Id_P:', storedId_P);
+            console.log('Name:', name);
+            console.log('Surname:', surname);
             console.log('mMRC_Data:', parsedData);
         });
 
         // Function to handle answer submission
         function submitAnswer(answer) {
-            const storedId_P = localStorage.getItem('userId_P');
+            const name = localStorage.getItem('userName');
+            const surname = localStorage.getItem('userSurname');
+            const userKey = `${name}_${surname}`;
             let mMRC_Data = JSON.parse(localStorage.getItem('mMRC_Data')) || {};
 
-            if (!storedId_P || !mMRC_Data[storedId_P]) {
+            if (!name || !surname || !mMRC_Data[userKey]) {
                 Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูลใน localStorage', 'error');
                 return;
             }
 
             // Update object with 3Qmmrc answer
-            mMRC_Data[storedId_P]["3Qmmrc"] = answer;
+            mMRC_Data[userKey]["3Qmmrc"] = answer;
 
             // Save updated object back to localStorage
             localStorage.setItem('mMRC_Data', JSON.stringify(mMRC_Data));
@@ -131,7 +137,7 @@
             console.log('Updated mMRC_Data:', mMRC_Data);
 
             // Prepare query string for next question
-            const queryString = `?Id_P=${encodeURIComponent(storedId_P)}&data=${encodeURIComponent(JSON.stringify(mMRC_Data[storedId_P]))}`;
+            const queryString = `?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&data=${encodeURIComponent(JSON.stringify(mMRC_Data[userKey]))}`;
 
             // Display success message and redirect to next question (4Qmmrc.html)
             Swal.fire({
