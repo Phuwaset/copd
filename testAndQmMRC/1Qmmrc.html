@@ -37,6 +37,7 @@
             background-color: #00796b;
         }
     </style>
+</head>
 
 <body>
     <div class="container">
@@ -44,7 +45,6 @@
         <div class="form-inline">
             <p id="name" class="form-control-static"></p>
             <p id="surname" class="form-control-static"></p>
-            <!-- <button class="btn-back" onclick="goBack()">กลับ</button> -->
         </div>
 
         <div class="question-card">
@@ -70,88 +70,83 @@
             </div>
         </div>
     </div>
-</body>
 
-<br><br>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-<!-- เพิ่ม jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <br><br>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <!-- เพิ่ม jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    function submitAnswer(answer) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const Id_P = urlParams.get('Id_P'); // ดึงเลขบัตรประชาชนจาก URL
-        const name = urlParams.get('name');
-        const surname = urlParams.get('surname');
+    <script>
+        function submitAnswer(answer) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            const surname = urlParams.get('surname');
 
-        if (!Id_P) {
-            Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูล Id_P', 'error');
-            return;
+            if (!name || !surname) {
+                Swal.fire('ผิดพลาด!', 'ไม่พบข้อมูล name หรือ surname', 'error');
+                return;
+            }
+
+            // ใช้ข้อความธรรมดา
+            const answerText = answer === 'ใช่' ? 'ใช่' : 'ไม่ใช่';
+
+            // ตรวจสอบว่ามีข้อมูล mMRC อยู่ใน localStorage หรือไม่ ถ้าไม่มีให้สร้าง object ใหม่
+            let mMRC_Data = JSON.parse(localStorage.getItem('mMRC_Data')) || {};
+
+            // เก็บคำตอบของ 1Qmmrc ใน object โดยใช้ name และ surname เป็น key
+            const userKey = `${name}_${surname}`;
+            mMRC_Data[userKey] = { "1Qmmrc": answerText };
+
+            // เก็บ object กลับไปยัง localStorage
+            localStorage.setItem('mMRC_Data', JSON.stringify(mMRC_Data));
+
+            console.log('mMRC_Data:', mMRC_Data);
+
+            // สร้าง query string จาก object
+            const queryString = `?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&data=${encodeURIComponent(JSON.stringify(mMRC_Data[userKey]))}`;
+
+            // แสดงการแจ้งเตือนก่อนเปลี่ยนหน้า
+            Swal.fire({
+                title: 'สำเร็จ!',
+                text: '',
+                icon: 'success',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                // เปลี่ยนหน้าเมื่อผู้ใช้กดปุ่ม "OK"
+                window.location.href = `2Qmmrc.html${queryString}`;
+            });
         }
 
-        // ใช้ข้อความธรรมดา
-        const answerText = answer === 'ใช่' ? 'ใช่' : 'ไม่ใช่';
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const storedName = urlParams.get('name');
+            const storedSurname = urlParams.get('surname');
 
-        // ตรวจสอบว่ามีข้อมูล mMRC อยู่ใน localStorage หรือไม่ ถ้าไม่มีให้สร้าง object ใหม่
-        let mMRC_Data = JSON.parse(localStorage.getItem('mMRC_Data')) || {};
+            // Check if values exist in URL parameters
+            if (storedName && storedSurname) {
+                // Save values to localStorage
+                localStorage.setItem('userName', storedName);
+                localStorage.setItem('userSurname', storedSurname);
+            } else {
+                // Redirect to index.html if missing data
+                window.location.href = '../index.html';
+                return;
+            }
 
-        // เก็บคำตอบของ 1Qmmrc ใน object และลบ Id_P อื่นๆ ถ้าไม่ต้องการเก็บ
-        mMRC_Data = { [Id_P]: { "1Qmmrc": answerText } }; // เก็บเฉพาะ Id_P ปัจจุบัน
-
-        // เก็บ object กลับไปยัง localStorage
-        localStorage.setItem('mMRC_Data', JSON.stringify(mMRC_Data));
-
-        console.log('Id_P:', Id_P);
-        console.log('mMRC_Data:', mMRC_Data);
-
-        // สร้าง query string จาก object
-        const queryString = `?Id_P=${encodeURIComponent(Id_P)}&data=${encodeURIComponent(JSON.stringify(mMRC_Data[Id_P]))}`;
-
-        // แสดงการแจ้งเตือนก่อนเปลี่ยนหน้า
-        Swal.fire({
-            title: 'สำเร็จ!',
-            text: '',
-            icon: 'success',
-            confirmButtonText: 'ตกลง'
-        }).then(() => {
-            // เปลี่ยนหน้าเมื่อผู้ใช้กดปุ่ม "OK"
-            window.location.href = `2Qmmrc.html${queryString}`;
+            // Display retrieved values
+            document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
+            document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
         });
-    }
 
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const storedId_P = urlParams.get('Id_P');
-        const storedName = urlParams.get('name');
-        const storedSurname = urlParams.get('surname');
-
-        // Check if values exist in URL parameters
-        if (storedId_P && storedName && storedSurname) {
-            // Save values to localStorage
-            localStorage.setItem('userId_P', storedId_P);
-            localStorage.setItem('userName', storedName);
-            localStorage.setItem('userSurname', storedSurname);
-        } else {
-            // Redirect to index.html if missing data
-            window.location.href = '../index.html';
-            return;
+        // ฟังก์ชันสำหรับย้อนกลับหน้า
+        function goBack() {
+            window.history.back();
         }
-
-        // Display retrieved values
-        document.getElementById('name').textContent = `ชื่อ: ${storedName}`;
-        document.getElementById('surname').textContent = `นามสกุล: ${storedSurname}`;
-    });
-
-    // ฟังก์ชันสำหรับย้อนกลับหน้า
-    function goBack() {
-        window.history.back();
-    }
-</script>
+    </script>
 
 </body>
 
