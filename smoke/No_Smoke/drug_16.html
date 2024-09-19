@@ -25,7 +25,6 @@
             justify-content: center;
             position: relative;
             z-index: 1;
-            
         }
 
         .container-custom {
@@ -47,16 +46,6 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.4);
             z-index: 1;
-        }
-
-        .btn-outline-light {
-            border-color: #ffffff;
-            color: #ffffff;
-        }
-
-        .btn-outline-light:hover {
-            background-color: #ffffff;
-            color: #007bff;
         }
 
         .data-container {
@@ -85,7 +74,6 @@
 <body>
     <!--Main Navigation-->
     <header>
-        <!-- Background image -->
         <div id="intro" class="bg-image shadow-2-strong">
             <div class="mask"></div>
             <div class="container container-custom text-center text-dark" data-mdb-theme="light" style="margin-top: 100px;">
@@ -96,33 +84,34 @@
                 <a href="#" id="backBtn" class="btn btn-outline-light btn-lg m-2" style="color: rgb(0, 0, 0);">กลับ</a>
             </div>
         </div>
-        <!-- Background image -->
     </header>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // ดึงข้อมูลจาก localStorage
             const data = JSON.parse(localStorage.getItem('smoking')) || {};
-            // const Id_P = encodeURIComponent(data.Id_P || '');
             const name = encodeURIComponent(data.name || '');
             const surname = encodeURIComponent(data.surname || '');
+
+            // แสดงข้อมูลทั้งหมดใน console
+            console.log("ข้อมูลทั้งหมดจาก localStorage:", data);
 
             // ฟังก์ชันในการแปลและจัดรูปแบบข้อมูล
             function formatData(key, value) {
                 const translations = {
-                    // Id_P: "เลขบัตรประชาชน",
                     bmi: "ดัชนีมวลกาย",
+                    wantToQuit:"ต้องการเลิกบุหรี่",
                     breathing_practice: "ฝึกหายใจ",
                     breathing_noPractice: "ไม่ฝึกหายใจ",
                     cigarettesPerDay: "จำนวนบุหรี่ต่อวัน",
                     cookingEquipment: "อุปกรณ์ในการประกอบอาหาร",
-                    cough_presence: "อาการไอ",
-                    cough_details: "รายละเอียดการไอ",
                     drugType: "ประเภทยา",
+                    weightGain_reason : "สาเหตุของนํ้าหนักที่เพิ่มขึ้น",
+                    drug_options_type : "ประเภทของยา",
+                    drug_options_details :"มียาหรือไม่",
+                    drug_options_description : "รายละเอียดของยา",
+                    weightLoss_duration : "ระยะเวลาที่สูญเสียนํ้าหนัก",
+                    weightLoss_reason : "สาเหตุของนํ้าหนักที่สูญเสีย",
                     drug_options: "ตัวเลือกยา",
                     exercise: "การออกกำลังกาย",
                     exerciseDuration: "ระยะเวลาในการออกกำลังกาย",
@@ -137,14 +126,10 @@
                     startAge: "อายุที่เริ่มสูบบุหรี่",
                     status: "สถานะ",
                     surname: "นามสกุล",
-                    symptoms_presence: "อาการ",
-                    symptoms_details: "รายละเอียดอาการ",
-                    wantToQuit: "ต้องการเลิกบุหรี่",
                     weight: "น้ำหนัก",
                     weightStatus: "สถานะน้ำหนัก"
                 };
 
-                // ตรวจสอบว่าคีย์มีในแปลและจัดรูปแบบค่าตามนั้น
                 const translatedKey = translations[key] || key;
                 return `<p><strong>${translatedKey}:</strong> ${typeof value === 'object' ? JSON.stringify(value, null, 2).replace(/"([^"]+)":/g, '$1:').replace(/"/g, '') : value}</p>`;
             }
@@ -153,7 +138,6 @@
             let html = '';
             for (const [key, value] of Object.entries(data)) {
                 if (typeof value === 'object' && value !== null) {
-                    // จัดการกับวัตถุที่ซ้อนกัน
                     for (const [subKey, subValue] of Object.entries(value)) {
                         html += formatData(`${key}_${subKey}`, subValue);
                     }
@@ -172,8 +156,5 @@
             });
         });
     </script>
-
-    <!-- No getback-->
-    <script src="../No_Smoke/notback.js"></script>
 </body>
 </html>
