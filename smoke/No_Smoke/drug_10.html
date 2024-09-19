@@ -56,7 +56,7 @@
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
                 <h2 class="mb-4">การฝึกหายใจ</h2>
-               
+
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
@@ -65,9 +65,16 @@
                        <br>
                        <p>ความถี่ในการฝึกการหายใจ</p>
                        <textarea id="breathingPractice" rows="4" class="form-control"></textarea><br>
+                       
                        <label for="noBreathingPractice">มีการฝึกหายใจวิธีใด</label>
-                        <br><br>
+                       <br><br>
                        <textarea id="noBreathingPractice" rows="4" class="form-control"></textarea><br>
+                       
+                       <!-- ฟิลด์ใหม่สำหรับไม่ฝึกหายใจ -->
+                       <label for="noPracticeReason">ไม่ฝึกหายใจ</label>
+                       <br><br>
+                       <textarea id="noPracticeReason" rows="4" class="form-control"></textarea><br>
+
                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
                     <div class="col"></div>
@@ -89,6 +96,7 @@
                 // Retrieve the reasons for breathing practice and not practicing
                 const breathingPractice = document.getElementById('breathingPractice').value;
                 const noBreathingPractice = document.getElementById('noBreathingPractice').value;
+                const noPracticeReason = document.getElementById('noPracticeReason').value;
 
                 // Retrieve the existing object from localStorage
                 let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
@@ -96,7 +104,8 @@
                 // Update the object with the new data
                 existingData.breathing = {
                     practice: breathingPractice,
-                    noPractice: noBreathingPractice
+                    noPractice: noBreathingPractice,
+                    noPracticeReason: noPracticeReason
                 };
 
                 // Save the updated object back to localStorage
@@ -108,8 +117,6 @@
                 // Get current URL parameters
                 const urlParams = window.location.search;
                 
-                // console.log('existingData',existingData);
-
                 // Redirect to the next page with updated parameters
                 window.location.href = `drug_13.html${urlParams}`;
             }
@@ -123,7 +130,7 @@
     </script>
 
     <!-- No Back Script -->
-    <script src="../No_Smoke/notback.js"></script>      
+    <script src="../No_Smoke/notback.js"></script>
 </body>
 
 </html>
