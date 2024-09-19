@@ -110,10 +110,12 @@
                         <h5 class="card-title"><b style="color: rgb(0, 177, 177);">ประเมิน mMRC / CAT</b></h5>
                         <hr>
                         <div class="container">
-                            <img src="./image/logo_copd.jpg" class="img-fluid" alt="COPD Image" width="53%" height="60%" style="border-radius: 5px;">
+                            <img src="./image/logo_copd.jpg" class="img-fluid" alt="COPD Image" width="53%" height="60%"
+                                style="border-radius: 5px;">
                         </div>
                         <hr>
-                        <a href="./testAndQmMRC/1Qmmrc.html" class="btn btn-outline-info"  id="submitLink" onclick="goToMMRC()">กรอกข้อมูล</a>
+                        <a href="./testAndQmMRC/1Qmmrc.html" class="btn btn-outline-info" id="submitLink"
+                            onclick="goToMMRC()">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
@@ -127,10 +129,12 @@
                         <hr>
                         <!-- <br> -->
                         <div class="container">
-                            <img src="./image/sum_data.jpg" class="img-fluid" alt="QR Code Image" width="50%" height="60%" style="border-radius: 5px;">
+                            <img src="./image/sum_data.jpg" class="img-fluid" alt="QR Code Image" width="50%"
+                                height="60%" style="border-radius: 5px;">
                         </div>
                         <hr class="">
-                        <a href="./smoke/smokeIndex.html" class="btn btn-outline-info" id="submitLink1" onclick="goToSmoke()">กรอกข้อมูล</a>
+                        <a href="./smoke/smokeIndex.html" class="btn btn-outline-info" id="submitLink1"
+                            onclick="goToSmoke()">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
@@ -146,7 +150,8 @@
                                 alt="Evaluation Image" width="45%" height="50%">
                         </div>
                         <hr>
-                        <a href="./recommand/index_recommand.html" id="submitLink2" class="btn btn-outline-info">กรอกข้อมูล</a>
+                        <a href="./recommand/index_recommand.html" id="submitLink2"
+                            class="btn btn-outline-info">กรอกข้อมูล</a>
                     </div>
                 </div>
             </div>
@@ -158,7 +163,7 @@
                         <h5 class="card-title"><b style="color: rgb(0, 177, 177);">การประเมินผล</b></h5>
                         <hr>
                         <div class="container">
-                        <img src="./image/data_copd.jpg" class="img-fluid" style="border-radius: 10px;"
+                            <img src="./image/data_copd.jpg" class="img-fluid" style="border-radius: 10px;"
                                 alt="Logo Data Image" width="47%" height="50%">
                         </div>
                         <hr>
@@ -178,89 +183,78 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Extract URL parameters
+            // Extract URL parameters or fallback to localStorage
             const urlParams = new URLSearchParams(window.location.search);
-            // const Id_P = urlParams.get('Id_P');
-            const name = urlParams.get('name');
-            const surname = urlParams.get('surname');
+            const name = urlParams.get('name') || localStorage.getItem('userName');
+            const surname = urlParams.get('surname') || localStorage.getItem('surname');
 
-            // Retrieve Id_P and name from localStorage
-            // const storedId_P = localStorage.getItem('userId_P');
-            const storedName = localStorage.getItem('userName');
-            const storedSurname = localStorage.getItem('surname')
+            // Log URL parameters to console for debugging
+            console.log('URL Params:', name, surname);
 
+            // Redirect to login if name and surname are missing
+            if (!name || !surname) {
+                window.location.href = 'index.html';
+                return;
+            }
 
-            // สร้าง URL พร้อมพารามิเตอร์
+            // Store name and surname in localStorage
+            if (name && surname) {
+                localStorage.setItem('userName', name);
+                localStorage.setItem('surname', surname);
+                console.log('Name:', name);
+                console.log('Surname:', surname);
+            }
+
+            // Update the name and surname in the DOM
+            document.getElementById('name').textContent = `ชื่อ: ${name}`;
+            document.getElementById('surname').textContent = `นามสกุล: ${surname}`;
+
+            // Build URLs with parameters and set href attributes
             const url = `./testAndQmMRC/1Qmmrc.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             const url_smoke = `./smoke/smokeIndex.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             const url_recomand = `./recommand/index_recommand.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
             const url_check = `./check/check.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}`;
-            
-            // เปลี่ยน href ของลิงก์ให้ไปยัง URL ที่สร้างขึ้น
+
             document.getElementById('submitLink').setAttribute('href', url);
             document.getElementById('submitLink1').setAttribute('href', url_smoke);
             document.getElementById('submitLink2').setAttribute('href', url_recomand);
             document.getElementById('submitLink3').setAttribute('href', url_check);
 
-            // // ตรวจสอบว่ามี session ใน localStorage หรือไม่ หากไม่มีให้บังคับกลับไปหน้า login
-            if (!name && !surname) {
-                window.location.href = 'index.html';
-                return; // หยุดการทำงานถัดไปเพื่อป้องกันการเกิดข้อผิดพลาด
-            }
+            // Fetch data from API using the name
+            fetch(`https://script.google.com/macros/s/AKfycbyhEK82Je5EoAGXkbD-9w2GxkZbx24TAucJ8fWrXpYn45DMU-q-rp_QSqzePWSbfG1ptg/exec?name=${encodeURIComponent(name)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('API Response:', data); // Log API response for debugging
+                    document.getElementById('name').textContent = `ชื่อ: ${data.name || name}`; // Update with API or fallback
+                    document.getElementById('surname').textContent = `นามสกุล: ${data.surname || surname}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
 
-
-            // ถ้ามีข้อมูล Id_P และ name จาก URL, เก็บลง localStorage
-            if (name && username) {
-                // localStorage.setItem('userId_P', Id_P);
-                localStorage.setItem('userName', name);
-                localStorage.setItem('surname', surname);
-                // console.log('ID_P:', Id_P);
-                console.log('Name:', name);
-                console.log('surname', surname);
-            }
-
-            // เลือกใช้ Id_P จาก URL ถ้ามี หรือจาก localStorage
-            const finalId_P = name || surname;
-
-            // Fetch ข้อมูลจาก API โดยใช้ Id_P
-            if (finalId_P) {
-                fetch(`https://script.google.com/macros/s/AKfycbyhEK82Je5EoAGXkbD-9w2GxkZbx24TAucJ8fWrXpYn45DMU-q-rp_QSqzePWSbfG1ptg/exec?Id_P=${encodeURIComponent(finalId_P)}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // console.log('Fetched Data:', data);
-                        document.getElementById('name').textContent = `ชื่อ: ${data.name || 'N/A'}`;
-                        document.getElementById('surname').textContent = `นามสกุล: ${data.surname || 'N/A'}`;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching data:', error);
-                    });
-            } else {
-                console.error('No valid ID_P found.');
-                window.location.href = 'index.html'; // Redirect if there's no valid ID_P
-            }
-
-            // ป้องกันการย้อนกลับโดยใช้ history.pushState
+            // Prevent back navigation
             window.history.pushState(null, "", window.location.href);
             window.onpopstate = function () {
-                // ป้องกันการกดปุ่มย้อนกลับ
                 Swal.fire({
                     title: 'คำเตือน!',
                     text: 'ไม่สามารถย้อนกลับได้ กรุณาออกจากระบบก่อน',
                     icon: 'warning',
                     confirmButtonText: 'ตกลง'
                 }).then(() => {
-                    window.history.pushState(null, "", window.location.href); // บังคับให้อยู่ในหน้าเดิม
+                    window.history.pushState(null, "", window.location.href);
                 });
             };
         });
     </script>
+
 
 
 

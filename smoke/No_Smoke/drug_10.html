@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>โรคปอดอุดกั้นเรื้อรัง</title>
-    <link rel="stylesheet" href="../../style.css">    
+    <link rel="stylesheet" href="../../style.css">
     <style>
         #intro {
             background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
@@ -56,15 +56,17 @@
             <div class="mask"></div>
             <div class="container container-custom text-center text-white" data-mdb-theme="dark">
                 <h2 class="mb-4">การฝึกหายใจ</h2>
-                <p>ในระยะเวลา 3 เดือนที่ผ่านมา</p>
+               
                 <div class="container">
                     <div class="col"></div>
                     <div class="col">
                        <label for="breathingPractice">ฝึกหายใจ</label>
-                       <p>สาเหตุ</p>
+                       <p>ในระยะเวลา 3 เดือนที่ผ่านมา</p>
+                       <br>
+                       <p>ความถี่ในการฝึกการหายใจ</p>
                        <textarea id="breathingPractice" rows="4" class="form-control"></textarea><br>
-                       <label for="noBreathingPractice">ไม่ฝึกหายใจ</label>
-                       <p>สาเหตุ</p>
+                       <label for="noBreathingPractice">มีการฝึกหายใจวิธีใด</label>
+                        <br><br>
                        <textarea id="noBreathingPractice" rows="4" class="form-control"></textarea><br>
                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
                     </div>
@@ -78,6 +80,8 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Custom Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Function to handle button click
@@ -103,6 +107,8 @@
 
                 // Get current URL parameters
                 const urlParams = window.location.search;
+                
+                // console.log('existingData',existingData);
 
                 // Redirect to the next page with updated parameters
                 window.location.href = `drug_11.html${urlParams}`;
@@ -115,7 +121,9 @@
             });
         });
     </script>
+
+    <!-- No Back Script -->
+    <script src="../No_Smoke/notback.js"></script>      
 </body>
-<!-- No getback-->
-<script src="../No_Smoke/notback.js"></script>      
+
 </html>

@@ -126,12 +126,12 @@
                 localStorage.setItem('smoking', JSON.stringify(smoking));
 
                 // ดึงข้อมูลจากพารามิเตอร์ URL
-                const Id_P = urlParams.get('Id_P');
+                // const Id_P = urlParams.get('Id_P');
                 const name = urlParams.get('name');
                 const surname = urlParams.get('surname');
 
                 // ตรวจสอบว่ามีข้อมูลใน localStorage หรือไม่
-                if (!Id_P || !name || !surname) {
+                if (!name || !surname) {
                     console.error('ข้อมูลที่ต้องการหายไปจาก localStorage');
                     alert('ข้อมูลที่ต้องการไม่ครบถ้วน กรุณาตรวจสอบ localStorage');
                     return; // หยุดการเปลี่ยนเส้นทาง
@@ -141,7 +141,7 @@
                 const smokingData = encodeURIComponent(JSON.stringify(smoking));
 
                 // สร้าง URL สำหรับการเปลี่ยนเส้นทาง
-                const drug2URL = `drug_2.html?Id_P=${encodeURIComponent(Id_P)}&name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&smoking=${smokingData}`;
+                const drug2URL = `drug_3.html?name=${encodeURIComponent(name)}&surname=${encodeURIComponent(surname)}&smoking=${smokingData}`;
 
                 // เปลี่ยนเส้นทางไปยังหน้าเว็บถัดไป
                 window.location.href = drug2URL;
