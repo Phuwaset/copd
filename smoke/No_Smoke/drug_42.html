@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โรคปอดอุดกั้นเรื้อรัง</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        #intro {
+            background-image: linear-gradient(to right, rgba(163, 244, 252, 0.871), rgb(15, 199, 236));
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container-custom {
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .btn-outline-light {
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #ffffff;
+            color: #007bff;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Main Navigation-->
+    <header>
+        <!-- Background image -->
+        <div id="intro" class="bg-image shadow-2-strong">
+            <div class="mask"></div>
+            <div class="container container-custom text-center text-white" data-mdb-theme="dark">
+                <h2 class="mb-4">ท่านเคยลืมใช้ยาหรือไม่ และหากลืมทำอย่างไร</h2>
+
+                <div class="container">
+                    <div class="col"></div>
+                    <div class="col">
+                        <label for="symptomsPresent">เคย</label>
+                        <input type="radio" id="symptomsPresent" name="symptoms" value="เคย">
+                        <label for="symptomsAbsent">ไม่เคย</label>
+                        <input type="radio" id="symptomsAbsent" name="symptoms" value="ไม่เคย"><br>
+                        <br>
+                        <div id="textareaContainer" class="hidden">
+                            <label for="symptomsDetails">หากลืมทำอย่างไร</label>
+                            <textarea id="symptomsDetails" rows="4" class="form-control"></textarea>
+                        </div>
+
+                        <button id="nextBtn" class="btn btn-outline-light btn-lg m-2">ถัดไป</button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Background image -->
+    </header>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to handle radio button change
+            function handleRadioChange() {
+                const textareaContainer = document.getElementById('textareaContainer');
+                const symptomsPresent = document.getElementById('symptomsPresent').checked;
+
+                if (symptomsPresent) {
+                    textareaContainer.classList.remove('hidden');
+                } else {
+                    textareaContainer.classList.add('hidden');
+                }
+            }
+
+            // Function to handle button click
+            function handleClick() {
+                // Get current URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                // Log URL parameters to console
+                console.log('URL Parameters:', Object.fromEntries(urlParams.entries()));
+
+                // Get the selected radio value
+                const symptoms = document.querySelector('input[name="symptoms"]:checked').value;
+                let symptomsDetails = '';
+
+                // Get the details if "เคย" is selected
+                if (symptoms === 'เคย') {
+                    symptomsDetails = document.getElementById('symptomsDetails').value;
+                }
+                if (symptoms === 'ไม่เคย') {
+                    symptomsDetailss = document.getElementById('symptomsDetails').value;
+                }
+
+                // Retrieve the existing object from localStorage
+                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
+
+                // Update the object with the new weight gain reason
+                existingData.symptomsDetails = {
+                    symptomsDetails: symptomsDetails,
+                    symptomsDetailss : 'ไม่เคย'
+                };
+
+  
+                // Save the updated object back to localStorage
+                localStorage.setItem('smoking', JSON.stringify(existingData));
+
+                // Log updated data to console
+                console.log('Updated localStorage data:', existingData);
+
+                // Redirect to drug_5.html with URL parameters
+                window.location.href = `drug_5.html?${new URLSearchParams(urlParams).toString()}`;
+            }
+
+            // Add event listener for the radio buttons
+            document.getElementById('symptomsPresent').addEventListener('change', handleRadioChange);
+            document.getElementById('symptomsAbsent').addEventListener('change', handleRadioChange);
+
+            // Add event listener for the next button
+            document.getElementById('nextBtn').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default action
+                handleClick();
+            });
+
+            // Initial setup
+            handleRadioChange(); // Ensure correct textarea visibility on load
+        });
+    </script>
+</body>
+<!-- No getback-->
+<script src="../No_Smoke/notback.js"></script>
+
+</html>
