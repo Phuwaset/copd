@@ -115,28 +115,19 @@
                 // Get the details if "เคย" is selected
                 if (symptoms === 'เคย') {
                     symptomsDetails = document.getElementById('symptomsDetails').value;
+                    // Update localStorage with "เคย"
+                    localStorage.setItem('smoking', JSON.stringify({
+                        symptomsDetails: 'เคย สาเหตุ' + symptomsDetails,
+                    }));
+                } else if (symptoms === 'ไม่เคย') {
+                    // Update localStorage with "ไม่เคย"
+                    localStorage.setItem('smoking', JSON.stringify({
+                        symptomsDetails: 'ไม่เคย สาเหตุ',
+                    }));
                 }
-                if (symptoms === 'ไม่เคย') {
-                    No_symptomsDetails= document.getElementById('symptomsDetails').value;
-                }
-
-                // Retrieve the existing object from localStorage
-                let existingData = JSON.parse(localStorage.getItem('smoking') || '{}');
-
-                // Update the object with the new weight gain reason
-                existingData.symptomsDetails = {
-                    symptomsDetails: 'เคย สาเหตุ'+symptomsDetails,
-                };
-                existingData.No_symptomsDetails = {
-                    No_symptomsDetails: 'ไม่เคย สาเหตุ'+No_symptomsDetails,
-                };
-
-  
-                // Save the updated object back to localStorage
-                localStorage.setItem('smoking', JSON.stringify(existingData));
 
                 // Log updated data to console
-                console.log('Updated localStorage data:', existingData);
+                console.log('Updated localStorage data:', JSON.parse(localStorage.getItem('smoking')));
 
                 // Redirect to drug_5.html with URL parameters
                 window.location.href = `drug_5.html?${new URLSearchParams(urlParams).toString()}`;
